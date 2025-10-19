@@ -1,29 +1,23 @@
 // src/js/blog.js
-// Load marked from CDN via dynamic import or global
+let articles = [];
 let marked;
 
+// Load marked dynamically from CDN
 async function ensureMarked() {
 	if (marked) return marked;
 	
 	try {
-		// Try to load marked from CDN as ESM
+		// Load from CDN as ESM module
 		const markedModule = await import('https://cdn.jsdelivr.net/npm/marked@11/+esm');
 		marked = markedModule.marked;
-		console.log('Marked loaded from CDN (ESM)');
-	} catch (e) {
-		// Fallback: try window.marked if script was loaded separately
-		if (window.marked) {
-			marked = window.marked;
-			console.log('Marked found on window object');
-		} else {
-			console.error('Failed to load marked:', e);
-			throw new Error('Failed to load marked library');
-		}
+		console.log('Marked library loaded successfully');
+	} catch (error) {
+		console.error('Failed to load marked library:', error);
+		throw error;
 	}
+	
 	return marked;
 }
-
-let articles = [];
 
 export async function loadBlogArticles() {
 	try {
@@ -74,7 +68,7 @@ async function loadArticle(articleId) {
 		const article = articles.find(a => a.id === articleId);
 		if (!article) return;
 
-		// Ensure marked is loaded before processing
+		// Ensure marked is loaded
 		await ensureMarked();
 
 		const response = await fetch(article.markdownContentFile);
