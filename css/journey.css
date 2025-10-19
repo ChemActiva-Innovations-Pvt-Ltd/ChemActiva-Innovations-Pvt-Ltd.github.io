@@ -1,0 +1,103 @@
+/* src/css/journey.css */
+
+.journey-timeline { 
+    position: relative; 
+    max-width: 800px; 
+    margin: 50px auto 0 auto; 
+}
+.journey-timeline::before { /* The central line */
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: var(--color-card-border);
+    border-radius: 2px;
+}
+body.dark-mode .journey-timeline::before {
+    background-image: linear-gradient(to bottom, transparent, var(--color-glow), transparent);
+}
+.timeline-item {
+    padding: 10px 0;
+    position: relative;
+    width: 50%;
+}
+.timeline-item:nth-child(odd) { 
+    left: 0; 
+    padding-right: 40px;
+    text-align: right;
+}
+.timeline-item:nth-child(even) { 
+    left: 50%;
+    padding-left: 40px;
+    text-align: left;
+}
+.timeline-item::after { /* Dot on the timeline */
+    content: '';
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    background-color: var(--color-accent-secondary);
+    border: 3px solid var(--color-background); 
+    border-radius: 50%;
+    z-index: 1;
+}
+.timeline-item:nth-child(odd)::after { 
+    right: -7.5px;
+}
+.timeline-item:nth-child(even)::after { 
+    left: -7.5px; 
+}
+body.dark-mode .timeline-item::after {
+    background-color: var(--color-glow);
+    box-shadow: 0 0 8px var(--color-glow);
+}
+
+.timeline-content {
+    position: relative;
+}
+.timeline-date {
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    font-size: 1.1rem;
+}
+.timeline-content h4 {
+    margin-top: 0.5em;
+    margin-bottom: 0.3em;
+    color: var(--color-text-primary);
+}
+.timeline-content p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+}
+
+/* Responsive Journey Timeline */
+@media (max-width: 768px) {
+    .journey-timeline::before { 
+        left: 20px; 
+        transform: translateX(0); 
+    } 
+    .timeline-item,
+    .timeline-item:nth-child(even) { 
+        width: 100%;
+        left: 0;
+        padding-left: 45px;
+        padding-right: 15px;
+        text-align: left;
+    }
+    .timeline-item:nth-child(odd) {
+        padding-right: 15px;
+        text-align: left;
+    }
+
+    .timeline-item::after,
+    .timeline-item:nth-child(odd)::after,
+    .timeline-item:nth-child(even)::after { 
+        left: 12.5px; /* 20px (line offset) - 7.5px (half dot width) */
+    }
+}
