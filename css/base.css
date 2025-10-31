@@ -82,10 +82,8 @@ li {
     transform: translate(-50%, -50%);
 }
 
-/* Hide default cursor on desktop when custom cursor is active */
-body:not(.mobile) * {
-    cursor: none !important;
-}
+/* Custom cursor is optional - keep default cursor visible */
+/* Removed cursor: none to ensure cursor is always visible */
 
 /* Dark mode cursor effects */
 body.dark-mode .custom-cursor {
