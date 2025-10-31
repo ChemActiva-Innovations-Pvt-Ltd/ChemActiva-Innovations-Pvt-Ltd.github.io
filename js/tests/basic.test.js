@@ -71,7 +71,7 @@ describe('Event Handling', () => {
     expect(mockHandler).toHaveBeenCalledTimes(1);
   });
 
-  test('should handle DOMContentLoaded event', (done) => {
+  test('should handle DOMContentLoaded event', async () => {
     const handler = jest.fn();
     document.addEventListener('DOMContentLoaded', handler);
     
@@ -79,9 +79,9 @@ describe('Event Handling', () => {
     const event = new Event('DOMContentLoaded');
     document.dispatchEvent(event);
 
-    setTimeout(() => {
-      expect(handler).toHaveBeenCalled();
-      done();
-    }, 0);
+    // Wait for event to propagate
+    await Promise.resolve();
+    
+    expect(handler).toHaveBeenCalled();
   });
 });
