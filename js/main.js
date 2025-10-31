@@ -1,5 +1,6 @@
 // Simplified main.js for basic functionality
 import ModernCursorEffects from './ModernCursorEffects.js';
+import './HeroLoader.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('ChemActiva website loaded');
@@ -23,31 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentYearElement) {
         currentYearElement.textContent = new Date().getFullYear();
     }
-
-    // Hide loading animation after a delay
-    setTimeout(() => {
-        hideLoadingAnimation();
-    }, 2000);
 });
-
-// Loading animation functions
-function showLoadingAnimation() {
-    const loader = document.getElementById('hero-loader');
-    if (loader) {
-        loader.style.display = 'flex';
-        loader.style.opacity = '1';
-    }
-}
-
-function hideLoadingAnimation() {
-    const loader = document.getElementById('hero-loader');
-    if (loader) {
-        loader.style.opacity = '0';
-        setTimeout(() => {
-            loader.style.display = 'none';
-        }, 500);
-    }
-}
 
 // Theme switching functionality
 function initThemeSwitcher() {

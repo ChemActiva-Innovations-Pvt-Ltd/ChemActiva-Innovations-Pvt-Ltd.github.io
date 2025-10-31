@@ -1,0 +1,139 @@
+/* Mobile Hero Slideshow Improvements */
+
+/* Better mobile background gradients */
+@media (max-width: 768px) {
+    /* Improve dark mode mobile background */
+    body.dark-mode .hero-main,
+    body.dark-mode .hero-slideshow-container {
+        background: linear-gradient(135deg, 
+            #0a1208 0%, 
+            #1a2f1a 50%,
+            #0f1f0f 100%);
+    }
+    
+    /* Better overlay for dark mode */
+    body.dark-mode .slide-overlay,
+    body.dark-mode .panel-overlay {
+        background: linear-gradient(180deg,
+            rgba(10, 18, 8, 0.7) 0%,
+            rgba(10, 18, 8, 0.3) 30%,
+            rgba(10, 18, 8, 0.3) 70%,
+            rgba(10, 18, 8, 0.85) 100%);
+    }
+    
+    /* Improve light mode mobile background */
+    body:not(.dark-mode) .hero-main,
+    body:not(.dark-mode) .hero-slideshow-container {
+        background: linear-gradient(135deg, 
+            #E1EEBC 0%, 
+            #f4f8ed 50%,
+            #E8F4C1 100%);
+    }
+    
+    /* Better overlay for light mode */
+    body:not(.dark-mode) .slide-overlay,
+    body:not(.dark-mode) .panel-overlay {
+        background: linear-gradient(180deg,
+            rgba(225, 238, 188, 0.75) 0%,
+            rgba(244, 248, 237, 0.4) 30%,
+            rgba(244, 248, 237, 0.4) 70%,
+            rgba(225, 238, 188, 0.85) 100%);
+    }
+    
+    /* Improve mobile slideshow height */
+    .hero-slideshow-container,
+    .hero-main {
+        min-height: 100vh;
+        min-height: 100dvh; /* Dynamic viewport height */
+    }
+    
+    /* Better slide content positioning */
+    .slide-content {
+        padding: 2rem 1.5rem;
+        justify-content: flex-end;
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    }
+    
+    /* Improve slide text readability */
+    .slide-title {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+        line-height: 1.2;
+        margin-bottom: 0.75rem;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .slide-subtitle {
+        font-size: clamp(1rem, 4vw, 1.25rem);
+        margin-bottom: 0.75rem;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .slide-description {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+        line-height: 1.5;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Better controls visibility */
+    .slider-controls {
+        padding: 0 1rem 1rem;
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+    
+    .slider-btn {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    body.dark-mode .slider-btn {
+        background: rgba(76, 175, 80, 0.2);
+        border: 1px solid rgba(76, 175, 80, 0.4);
+    }
+    
+    /* Improve dot indicators */
+    .dot {
+        background: rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    
+    .dot.active {
+        background: rgba(255, 255, 255, 0.9);
+    }
+    
+    body.dark-mode .dot {
+        background: rgba(76, 175, 80, 0.3);
+        border: 1px solid rgba(76, 175, 80, 0.5);
+    }
+    
+    body.dark-mode .dot.active {
+        background: rgba(76, 175, 80, 1);
+        box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+    }
+}
+
+/* Ensure slideshow images load properly */
+.slide img,
+.panel-image {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .slide img,
+body.dark-mode .panel-image {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Better transitions */
+.slide,
+.panel-slide {
+    will-change: opacity, transform;
+}
+
+/* Optimize for performance */
+@media (max-width: 768px) {
+    .slide-image,
+    .panel-image {
+        transform: none !important; /* Disable Ken Burns on mobile for performance */
+    }
+}
