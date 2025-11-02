@@ -271,12 +271,12 @@ body.dark-mode #hamburger-menu {
         min-height: 100px; /* Ensure minimum height for mobile logo */
     }
     #navbar .logo img { 
-        height: 110px; /* Smaller logo on mobile initially */
+        height: 140px; /* Larger logo on mobile initially (at top) */
         max-width: 200px;
     }
     #navbar.scrolled .container { height: 80px; }
     #navbar.scrolled .logo img { 
-        height: 140px; /* Larger logo when scrolled */
+        height: 80px; /* Smaller logo when scrolled */
     }
 
     #hamburger-menu { display: flex !important; }

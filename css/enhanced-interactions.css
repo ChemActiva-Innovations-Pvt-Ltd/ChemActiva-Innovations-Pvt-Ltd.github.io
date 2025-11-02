@@ -7,6 +7,85 @@
     transition: all 0.1s ease;
 }
 
+/* Touch ripple effect */
+.touch-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    transform: scale(0);
+    animation: ripple 0.6s ease-out;
+    z-index: 1;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+body.dark-mode .touch-ripple {
+    background: rgba(52, 211, 153, 0.3);
+}
+
+/* Scroll indicator for mobile */
+body.scrolling {
+    cursor: grabbing;
+}
+
+@media (max-width: 768px) {
+    /* Add visual feedback when scrolling on mobile */
+    body.scrolling::after {
+        content: '';
+        position: fixed;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 40px;
+        background: linear-gradient(180deg, 
+            transparent, 
+            var(--color-accent-primary), 
+            transparent);
+        border-radius: 2px;
+        opacity: 0.6;
+        pointer-events: none;
+        z-index: 9999;
+        animation: scrollIndicator 0.3s ease;
+    }
+    
+    @keyframes scrollIndicator {
+        from {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.5);
+        }
+        to {
+            opacity: 0.6;
+            transform: translateY(-50%) scale(1);
+        }
+    }
+    
+    body.dark-mode.scrolling::after {
+        background: linear-gradient(180deg, 
+            transparent, 
+            var(--color-glow), 
+            transparent);
+        box-shadow: 0 0 10px var(--color-glow);
+    }
+    
+    /* Touch-friendly elements need relative positioning for ripple */
+    .btn, 
+    .product-card-modern, 
+    .feature-tag, 
+    .timeline-content,
+    .team-card-modern,
+    .advisor-card-modern {
+        position: relative;
+        overflow: hidden;
+    }
+}
+
 /* Enhanced button styles */
 .btn,
 .cta-button-modern,
