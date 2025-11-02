@@ -146,25 +146,47 @@ body.dark-mode .timeline-item:hover::after {
 /* Responsive Journey Timeline */
 @media (max-width: 768px) {
     .journey-timeline {
-        padding: 20px 0;
+        padding: 40px 0;
         max-width: 100%;
+        position: relative;
     }
     
-    /* Remove the timeline line completely for mobile */
+    /* Subtle vertical line on the left */
     .journey-timeline::before { 
-        display: none;
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            var(--color-accent-primary) 10%,
+            var(--color-accent-primary) 90%,
+            transparent 100%);
+        opacity: 0.3;
     } 
     
-    /* Simple vertical layout without timeline elements */
+    body.dark-mode .journey-timeline::before {
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            var(--color-glow) 10%,
+            var(--color-glow) 90%,
+            transparent 100%);
+        opacity: 0.4;
+    }
+    
+    /* Modern card layout with timeline indicators */
     .timeline-item,
     .timeline-item:nth-child(odd),
     .timeline-item:nth-child(even) { 
         width: 100%;
         left: 0;
-        padding: 0 15px;
-        margin-bottom: 2rem;
+        padding: 0 20px 0 70px;
+        margin-bottom: 3rem;
         align-items: stretch;
-        animation: fadeInUp 0.6s ease forwards;
+        position: relative;
+        animation: slideInFromLeft 0.6s ease forwards;
         opacity: 0;
     }
     
@@ -180,75 +202,113 @@ body.dark-mode .timeline-item:hover::after {
     .timeline-item:nth-child(9) { animation-delay: 0.9s; }
     .timeline-item:nth-child(10) { animation-delay: 1s; }
 
-    /* Fade in up animation */
-    @keyframes fadeInUp {
+    /* Slide in from left animation */
+    @keyframes slideInFromLeft {
         from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateX(-30px);
         }
         to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
     }
 
-    /* Remove timeline connecting elements */
+    /* Remove connecting line from desktop */
     .timeline-item::before,
     .timeline-item:nth-child(odd)::before,
     .timeline-item:nth-child(even)::before {
         display: none;
     }
 
-    /* Remove timeline dots */
+    /* Circle indicators on the timeline */
     .timeline-item::after,
     .timeline-item:nth-child(odd)::after,
     .timeline-item:nth-child(even)::after { 
-        display: none;
+        content: '';
+        position: absolute;
+        left: 22px;
+        top: 8px;
+        width: 16px;
+        height: 16px;
+        background: var(--color-accent-primary);
+        border: 3px solid var(--color-background);
+        border-radius: 50%;
+        box-shadow: 0 0 0 2px var(--color-accent-primary);
+        z-index: 2;
+    }
+    
+    body.dark-mode .timeline-item::after,
+    body.dark-mode .timeline-item:nth-child(odd)::after,
+    body.dark-mode .timeline-item:nth-child(even)::after {
+        background: var(--color-glow);
+        box-shadow: 0 0 0 2px var(--color-glow), 0 0 8px var(--color-glow);
     }
 
-    /* Simple date styling */
+    /* Date badge styling */
     .timeline-date,
     .timeline-item:nth-child(odd) .timeline-date,
     .timeline-item:nth-child(even) .timeline-date {
         text-align: left;
-        font-size: 0.85rem;
-        font-weight: 600;
+        font-size: 0.8rem;
+        font-weight: 700;
         color: var(--color-accent-primary);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
         letter-spacing: 0.5px;
         text-transform: uppercase;
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: rgba(var(--color-accent-rgb-values, 5, 150, 105), 0.1);
+        border-radius: 20px;
     }
     
     body.dark-mode .timeline-date {
         color: var(--color-glow);
+        background: rgba(52, 211, 153, 0.15);
     }
 
-    /* Clean content styling without heavy borders */
+    /* Modern card content with subtle background */
     .timeline-content,
     .timeline-item:nth-child(odd) .timeline-content,
     .timeline-item:nth-child(even) .timeline-content {
         text-align: left;
-        padding: 0;
-        border-radius: 0;
-        background: transparent;
-        box-shadow: none;
-        border: none;
+        padding: 1.25rem;
+        border-radius: 12px;
+        background: rgba(var(--color-accent-rgb-values, 5, 150, 105), 0.03);
+        border-left: 3px solid var(--color-accent-primary);
         transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    body.dark-mode .timeline-content {
+        background: rgba(52, 211, 153, 0.05);
+        border-left-color: var(--color-glow);
+    }
+    
+    /* Hover effect for better interactivity */
+    .timeline-item:active .timeline-content {
+        transform: translateX(4px);
+        background: rgba(var(--color-accent-rgb-values, 5, 150, 105), 0.08);
+    }
+    
+    body.dark-mode .timeline-item:active .timeline-content {
+        background: rgba(52, 211, 153, 0.1);
     }
     
     .timeline-content h4 {
-        font-size: 1.1rem;
-        font-weight: 600;
+        font-size: 1.05rem;
+        font-weight: 700;
         margin-bottom: 0.5rem;
         line-height: 1.3;
         color: var(--color-text-primary);
     }
     
     .timeline-content p {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         line-height: 1.6;
         color: var(--color-text-secondary);
-        opacity: 0.85;
+        opacity: 0.9;
+        margin: 0;
     }
     
     body.dark-mode .timeline-content h4 {
