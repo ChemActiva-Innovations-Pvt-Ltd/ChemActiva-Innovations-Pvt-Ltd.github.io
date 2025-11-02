@@ -3,12 +3,16 @@
 /* Better mobile background gradients */
 @media (max-width: 768px) {
     /* Improve dark mode mobile background */
-    body.dark-mode .hero-main,
-    body.dark-mode .hero-slideshow-container {
+    body.dark-mode .hero-main {
         background: linear-gradient(135deg, 
             #0a1208 0%, 
             #1a2f1a 50%,
             #0f1f0f 100%);
+    }
+    
+    body.dark-mode .hero-main .slider-container,
+    body.dark-mode .hero-main .slides-wrapper {
+        background: rgba(10, 18, 8, 0.3);
     }
     
     /* Better overlay for dark mode */

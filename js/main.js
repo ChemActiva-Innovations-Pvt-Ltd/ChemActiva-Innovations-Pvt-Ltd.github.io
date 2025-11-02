@@ -94,4 +94,28 @@ function initNavigation() {
             }
         });
     });
+    
+    // Navbar scroll handler
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        let lastScrollY = window.scrollY;
+        
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            lastScrollY = currentScrollY;
+        };
+        
+        // Initial check
+        handleScroll();
+        
+        // Add scroll listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    }
 }
