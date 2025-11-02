@@ -74,10 +74,16 @@
         mutations.forEach(mutation => {
             if (mutation.addedNodes.length) {
                 mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) { // Element node
-                        const newLazyImages = node.querySelectorAll ? 
-                            node.querySelectorAll('img[loading="lazy"]') : [];
+                    // Only process element nodes
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        // Check if the node itself is a lazy image
+                        if (node.tagName === 'IMG' && node.getAttribute('loading') === 'lazy') {
+                            node.classList.add('lazy-image');
+                            imageObserver.observe(node);
+                        }
                         
+                        // Check for lazy images within the node
+                        const newLazyImages = node.querySelectorAll('img[loading="lazy"]');
                         newLazyImages.forEach(img => {
                             img.classList.add('lazy-image');
                             imageObserver.observe(img);
@@ -88,8 +94,9 @@
         });
     });
 
-    // Observe the entire document for new images
-    contentObserver.observe(document.body, {
+    // Observe the main content container for new images (more efficient than observing entire body)
+    const mainContent = document.querySelector('main') || document.body;
+    contentObserver.observe(mainContent, {
         childList: true,
         subtree: true
     });
