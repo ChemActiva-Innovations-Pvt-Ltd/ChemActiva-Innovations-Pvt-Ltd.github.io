@@ -95,7 +95,12 @@
     });
 
     // Observe the main content container for new images (more efficient than observing entire body)
-    const mainContent = document.querySelector('main') || document.body;
+    // Try to find the most specific container, falling back to body only if necessary
+    const mainContent = document.querySelector('main') || 
+                        document.querySelector('#main-container') || 
+                        document.querySelector('.container') ||
+                        document.body;
+    
     contentObserver.observe(mainContent, {
         childList: true,
         subtree: true
