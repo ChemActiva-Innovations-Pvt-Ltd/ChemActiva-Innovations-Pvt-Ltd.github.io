@@ -223,8 +223,8 @@ body.dark-mode .timeline-item:hover::after {
         display: inline-block;
         padding: 0.25rem 0.75rem;
         background: linear-gradient(135deg, 
-            rgba(var(--color-accent-rgb-values, 5, 150, 105), 0.15), 
-            rgba(var(--color-accent-rgb-values, 5, 150, 105), 0.05));
+            rgba(5, 150, 105, 0.15), 
+            rgba(5, 150, 105, 0.05));
         border-radius: 12px;
         border-left: 3px solid var(--color-accent-primary);
     }
@@ -256,7 +256,7 @@ body.dark-mode .timeline-item:hover::after {
         transform: scale(0.98);
         box-shadow: 
             0 1px 4px rgba(0, 0, 0, 0.1),
-            0 0 5px rgba(var(--color-accent-rgb-values), 0.15);
+            0 0 5px rgba(5, 150, 105, 0.15);
     }
     
     .timeline-content h4 {

@@ -162,14 +162,7 @@
         padding: 0 1rem;
     }
     
-    #navbar .logo img {
-        height: 140px; /* Larger logo on mobile at top */
-        max-width: 200px;
-    }
-    
-    #navbar.scrolled .logo img {
-        height: 80px; /* Smaller logo when scrolled */
-    }
+    /* Logo sizing is controlled by navbar.css */
     
     /* Mobile menu overlay */
     #navbar .nav-links {

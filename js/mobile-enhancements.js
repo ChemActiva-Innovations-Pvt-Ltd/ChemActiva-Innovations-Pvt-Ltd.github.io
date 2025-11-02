@@ -27,13 +27,15 @@ class MobileEnhancements {
             let moving = false;
             
             gallery.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-                moving = true;
+                if (e.touches && e.touches.length > 0) {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    moving = true;
+                }
             }, { passive: true });
             
             gallery.addEventListener('touchmove', (e) => {
-                if (!moving) return;
+                if (!moving || !e.touches || e.touches.length === 0) return;
                 
                 const currentX = e.touches[0].clientX;
                 const currentY = e.touches[0].clientY;
