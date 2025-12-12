@@ -1,0 +1,111 @@
+---
+/**
+ * ChemActiva Blog Index
+ * Authored by Shuvam Banerji Seal
+ */
+import '../../styles/modern-design.css';
+
+const title = "Blog - ChemActiva Innovations";
+const description = "Insights and stories from sustainable nanocellulose technology.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="leaves-container" id="leaves-container"></div>
+
+    <nav class="modern-navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo"><img src="/assets/images/logo.png" alt="ChemActiva"></a>
+            <div class="nav-links-modern" id="nav-menu">
+                <a href="/#our-journey">Journey</a>
+                <a href="/#innovation">Innovation</a>
+                <a href="/products">Products</a>
+                <a href="/blog" style="color: var(--accent-secondary);">Blog</a>
+                <a href="/#team">Team</a>
+                <a href="/#contact">Contact</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <main style="padding-top: 100px;">
+        <section style="padding: 2rem 0; text-align: center;">
+            <div class="container">
+                <h1>Our <span class="text-gradient">Blog</span></h1>
+                <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">Insights from sustainable nanocellulose technology.</p>
+            </div>
+        </section>
+
+        <section style="padding: 2rem 0 var(--section-padding);">
+            <div class="container">
+                <div class="blog-grid" id="blog-grid"><p>Loading posts...</p></div>
+            </div>
+        </section>
+        
+        <footer class="footer-modern">
+            <div class="container"><p>&copy; <span id="current-year"></span> ChemActiva Innovations.</p></div>
+        </footer>
+    </main>
+
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Leaves
+            const leavesContainer = document.getElementById('leaves-container');
+            for (let i = 0; i < 10; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = ['🍃', '🌿', '☘️'][Math.floor(Math.random() * 3)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.top = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leavesContainer.appendChild(leaf);
+            }
+
+            // Hamburger
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
+            navMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { hamburger.classList.remove('active'); navMenu.classList.remove('active'); }));
+
+            // Theme
+            const themeBtn = document.getElementById('theme-toggle');
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.textContent = '☀️'; }
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); themeBtn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙'; localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Load Blogs
+            try {
+                const res = await fetch('/blog.jsonl');
+                const text = await res.text();
+                const blogs = text.trim().split('\n').map(JSON.parse).sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                document.getElementById('blog-grid').innerHTML = blogs.map(blog => `
+                    <article class="glass-card blog-card" onclick="window.location.href='/blog/post/${blog.id}'">
+                        <div class="blog-cover"><img src="${blog.coverImage}" alt="${blog.title}" loading="lazy"></div>
+                        <div class="blog-meta">
+                            <span>📅 ${new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                            <span>✍️ ${blog.author}</span>
+                        </div>
+                        <h3 style="margin-bottom: 0.4rem;">${blog.title}</h3>
+                        <p style="font-size: 0.85rem; line-height: 1.5;">${blog.abstract.length > 120 ? blog.abstract.substring(0, 120) + '...' : blog.abstract}</p>
+                        <div class="blog-tags">${blog.tags.slice(0, 3).map(t => `<span class="blog-tag">${t}</span>`).join('')}</div>
+                    </article>
+                `).join('');
+            } catch (e) {
+                document.getElementById('blog-grid').innerHTML = '<p>Error loading posts.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

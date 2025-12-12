@@ -1,0 +1,115 @@
+---
+/**
+ * Dynamic Team Member Page
+ * Authored by Shuvam Banerji Seal
+ */
+import '../../styles/modern-design.css';
+import fs from 'node:fs';
+
+export async function getStaticPaths() {
+    const teamPath = './public/team.jsonl';
+    const teamData = fs.readFileSync(teamPath, 'utf-8')
+        .trim()
+        .split('\n')
+        .map(line => JSON.parse(line));
+    
+    return teamData.map(member => ({
+        params: { id: member.id },
+        props: { member }
+    }));
+}
+
+const { member } = Astro.props;
+const title = `${member.name} - ChemActiva Team`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={member.bio || `${member.name} at ChemActiva Innovations`}>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="leaves-container" id="leaves-container"></div>
+
+    <nav class="modern-navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo"><img src="/assets/images/logo.png" alt="ChemActiva"></a>
+            <div class="nav-links-modern" id="nav-menu">
+                <a href="/#our-journey">Journey</a>
+                <a href="/products">Products</a>
+                <a href="/blog">Blog</a>
+                <a href="/#team">Team</a>
+                <a href="/#contact">Contact</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <main style="padding-top: 100px;">
+        <section style="padding: var(--section-padding);">
+            <div class="container">
+                <a href="/#team" style="color: var(--accent-secondary); margin-bottom: 1rem; display: inline-block;">← Back to Team</a>
+                
+                <div class="member-hero glass-card">
+                    {member.image ? (
+                        <img class="member-image" src={member.image} alt={member.name}>
+                    ) : (
+                        <div class="member-image" style="display: flex; align-items: center; justify-content: center; background: var(--bg-card); font-size: 3rem; color: var(--text-secondary);">
+                            {member.name.split(' ').map(n => n[0]).join('')}
+                        </div>
+                    )}
+                    
+                    <div class="member-info">
+                        <h1>{member.name}</h1>
+                        <div class="member-position">{member.position}</div>
+                        
+                        {member.bio && <div class="member-bio"><p>{member.bio}</p></div>}
+                        
+                        {member.responsibilities && (
+                            <div class="member-responsibilities">
+                                <h3>Responsibilities</h3>
+                                <p style="color: var(--text-secondary);">{member.responsibilities}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer-modern">
+            <div class="container"><p>&copy; <span id="current-year"></span> ChemActiva Innovations.</p></div>
+        </footer>
+    </main>
+
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            const leavesContainer = document.getElementById('leaves-container');
+            for (let i = 0; i < 6; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = ['🍃', '🌿', '☘️'][Math.floor(Math.random() * 3)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.top = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leavesContainer.appendChild(leaf);
+            }
+
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
+
+            const themeBtn = document.getElementById('theme-toggle');
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.textContent = '☀️'; }
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); themeBtn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙'; localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

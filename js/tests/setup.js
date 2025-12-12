@@ -1,39 +1,28 @@
-// Jest setup file
-// This file runs before each test suite
+/**
+ * Jest Test Setup
+ * Authored by Shuvam Banerji Seal
+ * 
+ * Global test configuration for ChemActiva website tests.
+ */
 
-// Mock console methods if needed
-global.console = {
-  ...console,
-  // Uncomment to suppress console logs during tests
-  // log: jest.fn(),
-  // debug: jest.fn(),
-  // info: jest.fn(),
-  // warn: jest.fn(),
-  // error: jest.fn(),
+// Mock localStorage for jsdom environment
+const localStorageMock = {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    removeItem: jest.fn(),
+    clear: jest.fn(),
 };
+global.localStorage = localStorageMock;
 
-// Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
+// Mock fetch for API calls
+global.fetch = jest.fn(() =>
+    Promise.resolve({
+        text: () => Promise.resolve(''),
+        json: () => Promise.resolve({}),
+    })
+);
+
+// Clean up after each test
+afterEach(() => {
+    jest.clearAllMocks();
 });
-
-// Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  takeRecords() {
-    return [];
-  }
-  unobserve() {}
-};

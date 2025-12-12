@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+d
+Sitemap: https://chemactiva.github.io/sitemap.xml

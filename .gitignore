@@ -1,32 +1,9 @@
-# Dependencies
 node_modules/
-
-# Testing
-coverage/
-*.test.js.snap
-
-# Build outputs
 dist/
-build/
-*.log
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
+.astro/
 .DS_Store
-Thumbs.db
-
-# Temporary files
-tmp/
-temp/
-*.tmp
+coverage/
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

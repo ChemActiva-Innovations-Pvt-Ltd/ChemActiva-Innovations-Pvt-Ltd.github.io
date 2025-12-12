@@ -1,0 +1,186 @@
+---
+/**
+ * ChemActiva Products Page
+ * Authored by Shuvam Banerji Seal
+ */
+import '../../styles/modern-design.css';
+
+const title = "Products - ChemActiva Innovations";
+const description = "Explore sustainable nanocellulose products including Greenulose™ and oil spill kits.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="leaves-container" id="leaves-container"></div>
+
+    <!-- Quote Modal -->
+    <div class="modal-overlay" id="quote-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 style="margin-bottom: 0.75rem;">Request <span class="text-gradient">Quote</span></h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">We'll respond within 24 hours.</p>
+            <form class="contact-form" id="quote-form">
+                <div class="form-group"><input type="text" name="name" placeholder="Your Name" required></div>
+                <div class="form-group"><input type="email" name="email" placeholder="Your Email" required></div>
+                <div class="form-group"><input type="text" name="product" id="quote-product" placeholder="Product" required></div>
+                <div class="form-group"><textarea name="message" placeholder="Details (quantity, etc.)"></textarea></div>
+                <button type="submit" class="btn-modern" style="width: 100%;">Submit</button>
+            </form>
+            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.75rem; text-align: center;">
+                Or use our <a href="https://forms.google.com" target="_blank" style="color: var(--accent-secondary);">Google Form →</a>
+            </p>
+        </div>
+    </div>
+
+    <nav class="modern-navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo"><img src="/assets/images/logo.png" alt="ChemActiva"></a>
+            <div class="nav-links-modern" id="nav-menu">
+                <a href="/#our-journey">Journey</a>
+                <a href="/#innovation">Innovation</a>
+                <a href="/products" style="color: var(--accent-secondary);">Products</a>
+                <a href="/blog">Blog</a>
+                <a href="/#team">Team</a>
+                <a href="/#contact">Contact</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <main style="padding-top: 100px;">
+        <section style="padding: 2rem 0; text-align: center;">
+            <div class="container">
+                <h1>Our <span class="text-gradient">Products</span></h1>
+                <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem;">Sustainable solutions powered by nanocellulose.</p>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <span class="btn-outline" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem;">🌱 Biodegradable</span>
+                    <span class="btn-outline" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem;">🔬 Plant-Based</span>
+                    <span class="btn-outline" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem;">♻️ Eco-Friendly</span>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: var(--section-padding);">
+            <div class="container">
+                <div id="products-grid" style="display: flex; flex-direction: column; gap: 2rem;"></div>
+            </div>
+        </section>
+
+        <section style="padding: var(--section-padding); background: var(--bg-medium);">
+            <div class="container" style="text-align: center;">
+                <h2>Need a Custom Solution?</h2>
+                <p style="margin-bottom: 1.5rem;">Contact us for bulk orders or specialized products.</p>
+                <button class="btn-modern" onclick="openQuoteModal('Custom Solution')">Get in Touch</button>
+            </div>
+        </section>
+        
+        <footer class="footer-modern">
+            <div class="container"><p>&copy; <span id="current-year"></span> ChemActiva Innovations. <a href="/blog">Blog</a></p></div>
+        </footer>
+    </main>
+
+    <script is:inline>
+        function openQuoteModal(product) {
+            document.getElementById('quote-product').value = product;
+            document.getElementById('quote-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Leaves
+            const leavesContainer = document.getElementById('leaves-container');
+            for (let i = 0; i < 10; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = ['🍃', '🌿', '☘️'][Math.floor(Math.random() * 3)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.top = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leavesContainer.appendChild(leaf);
+            }
+
+            // Modal
+            document.getElementById('modal-close').addEventListener('click', () => { document.getElementById('quote-modal').classList.remove('active'); document.body.style.overflow = ''; });
+            document.getElementById('quote-modal').addEventListener('click', (e) => { if (e.target.id === 'quote-modal') { document.getElementById('quote-modal').classList.remove('active'); document.body.style.overflow = ''; }});
+            document.getElementById('quote-form').addEventListener('submit', (e) => { e.preventDefault(); alert('Thank you! We will respond soon.'); document.getElementById('quote-modal').classList.remove('active'); document.body.style.overflow = ''; e.target.reset(); });
+
+            // Hamburger
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
+            navMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { hamburger.classList.remove('active'); navMenu.classList.remove('active'); }));
+
+            // Theme
+            const themeBtn = document.getElementById('theme-toggle');
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.textContent = '☀️'; }
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); themeBtn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙'; localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Products
+            const products = [
+                {
+                    id: 'dosk',
+                    name: 'Domestic Oil Spill Kit',
+                    tagline: 'Safe | Sustainable | Taste-Preserving',
+                    desc: 'Cellulose-based absorbent for home use. Absorbs oil up to 50x its weight. Biodegradable and kitchen-safe.',
+                    cat: 'Oil Spill Solution',
+                    images: ['/assets/images/products/Domestic_oil_spill_kit_1.webp', '/assets/images/products/Domestic_oil_spill_kit_collage_1.webp', '/assets/images/products/Domestic_oil_spill_kit_collage_2.webp'],
+                    features: ['Kitchen Safe', 'Non-Toxic', 'Biodegradable']
+                },
+                {
+                    id: 'greenulose',
+                    name: 'Greenulose™ Nano-Cellulose',
+                    tagline: 'High-Performance | Biodegradable | Plant-Based',
+                    desc: 'Carboxylated crystalline nano cellulose from renewable sources. Available in powder and liquid forms.',
+                    cat: 'Greenulose™',
+                    images: ['/assets/images/products/Nano_cellulose_1.webp', '/assets/images/products/Greenulose_25g_bottle.webp', '/assets/images/products/Greenulose_100g_bottle.webp'],
+                    features: ['Plant-Based', 'High Performance', 'Versatile']
+                },
+                {
+                    id: 'mosk',
+                    name: 'Marine Oil Spill Kit',
+                    tagline: 'Marine Grade | Biodegradable | Fast Acting',
+                    desc: 'Professional-grade absorbent for marine environments. Rapid and effective oil spill cleanup.',
+                    cat: 'Marine Solutions',
+                    images: ['/assets/images/products/Marine_oil_spill_kit.webp', '/assets/images/Panel_2_Oil_Spill_Kits.webp'],
+                    features: ['Marine Grade', 'Fast Acting', 'Eco-Safe']
+                }
+            ];
+
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = products.map((p, idx) => {
+                const rev = idx % 2 === 1;
+                return `
+                <article class="glass-card product-detail-grid">
+                    <div class="product-gallery" style="order: ${rev ? 2 : 1};">
+                        <img class="product-main-image" id="main-${p.id}" src="${p.images[0]}" alt="${p.name}">
+                        <div class="product-thumbnails">
+                            ${p.images.map((img, i) => `<img src="${img}" alt="View ${i+1}" class="product-thumb ${i === 0 ? 'active' : ''}" onclick="document.getElementById('main-${p.id}').src='${img}'; this.parentElement.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');">`).join('')}
+                        </div>
+                    </div>
+                    <div class="product-details" style="order: ${rev ? 1 : 2};">
+                        <span class="product-category-tag">${p.cat}</span>
+                        <h2>${p.name}</h2>
+                        <p class="product-tagline">${p.tagline}</p>
+                        <p style="line-height: 1.6; margin-bottom: 1rem;">${p.desc}</p>
+                        <div class="product-features">${p.features.map(f => `<span class="product-feature-tag">${f}</span>`).join('')}</div>
+                        <button class="btn-modern" onclick="openQuoteModal('${p.name}')">Request Quote</button>
+                    </div>
+                </article>
+                `;
+            }).join('');
+        });
+    </script>
+</body>
+</html>

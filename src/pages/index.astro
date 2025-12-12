@@ -1,0 +1,326 @@
+---
+/**
+ * ChemActiva Homepage
+ * Authored by Shuvam Banerji Seal
+ */
+import '../styles/modern-design.css';
+
+const title = "ChemActiva Innovations - Sustainable Nanocellulose & Green Technology";
+const description = "ChemActiva Innovations pioneers sustainable Nano Cellulose, Oil Spill Kits, and Green Technologies.";
+const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <meta name="keywords" content="nanocellulose, green technology, sustainable chemicals, oil spill kit, ChemActiva">
+    <meta name="author" content="Shuvam Banerji Seal, ChemActiva Innovations Pvt Ltd">
+    <link rel="canonical" href={siteUrl}>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content={siteUrl}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content={`${siteUrl}/assets/images/covers/group-portrait.webp`}>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ChemActiva Innovations Pvt Ltd",
+        "url": "https://chemactiva-innovations-pvt-ltd.github.io",
+        "logo": "https://chemactiva-innovations-pvt-ltd.github.io/assets/images/logo.png"
+    }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="leaves-container" id="leaves-container"></div>
+
+    <!-- Slideshow Modal -->
+    <div class="slideshow-modal" id="slideshow-modal">
+        <div class="slideshow-container">
+            <button class="slideshow-close" id="slideshow-close">&times;</button>
+            <img class="slideshow-image" id="slideshow-image" src="" alt="">
+            <div class="slideshow-caption" id="slideshow-caption"></div>
+            <button class="slideshow-nav slideshow-prev" id="slideshow-prev">❮</button>
+            <button class="slideshow-nav slideshow-next" id="slideshow-next">❯</button>
+            <div class="slideshow-dots" id="slideshow-dots"></div>
+        </div>
+    </div>
+
+    <nav class="modern-navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo"><img src="/assets/images/logo.png" alt="ChemActiva"></a>
+            <div class="nav-links-modern" id="nav-menu">
+                <a href="#our-journey">Journey</a>
+                <a href="#innovation">Innovation</a>
+                <a href="/products">Products</a>
+                <a href="/blog">Blog</a>
+                <a href="#team">Team</a>
+                <a href="#contact">Contact</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero-modern">
+            <div class="hero-bg-glow glow-top-right"></div>
+            <div class="hero-bg-glow glow-bottom-left"></div>
+            <div class="container hero-grid-modern">
+                <div class="hero-text-content">
+                    <h1>Pioneering <span class="text-gradient" id="typewriter"></span><br>for a Cleaner Future</h1>
+                    <p class="hero-description">ChemActiva harnesses Nanocellulose and Green Chemistry to solve pressing environmental challenges.</p>
+                    <div class="hero-buttons">
+                        <a href="/products" class="btn-modern">Explore Solutions</a>
+                        <a href="#contact" class="btn-outline">Get in Touch</a>
+                    </div>
+                </div>
+                <div class="hero-visual-modern" id="hero-visual">
+                    <div class="hero-image-stack" id="hero-stack"></div>
+                    <div class="click-hint">Click to view slideshow</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-journey" style="padding: var(--section-padding);">
+            <div class="container">
+                <h2>Our <span class="text-gradient">Journey</span></h2>
+                <div class="timeline-container" id="journey-container"><p>Loading...</p></div>
+            </div>
+        </section>
+
+        <section id="innovation" class="features-modern">
+            <div class="container">
+                <h2>Our <span class="text-gradient">Core Innovations</span></h2>
+                <div class="grid-3">
+                    <article class="glass-card"><div class="feature-icon">🌿</div><h3>Sustainable Chemicals</h3><p>Biodegradable polymers and crystalline nanocellulose.</p></article>
+                    <article class="glass-card"><div class="feature-icon">💧</div><h3>Oil Spill Kits</h3><p>Plant-based materials absorbing 50x their weight.</p></article>
+                    <article class="glass-card"><div class="feature-icon">♻️</div><h3>Bio-Economy</h3><p>Renewable biological resources for circular economy.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="products" style="padding: var(--section-padding);">
+            <div class="container">
+                <h2>Our <span class="text-gradient">Products</span></h2>
+                <div class="products-showcase-grid" id="products-container"></div>
+                <div style="text-align: center; margin-top: 1.5rem;"><a href="/products" class="btn-modern">View All Products</a></div>
+            </div>
+        </section>
+
+        <section id="team" style="padding: var(--section-padding);">
+            <div class="container">
+                <h2>Meet the <span class="text-gradient">Team</span></h2>
+                <div class="team-grid-modern" id="team-container"><p>Loading...</p></div>
+            </div>
+        </section>
+
+        <section id="advisors" style="padding: var(--section-padding); background: var(--bg-medium);">
+            <div class="container">
+                <h2>Our <span class="text-gradient">Advisors</span></h2>
+                <div class="advisors-grid" id="advisors-container"><p>Loading...</p></div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Get in <span class="text-gradient">Touch</span></h2>
+                <div class="contact-grid">
+                    <div class="contact-info glass-card">
+                        <h3>ChemActiva Innovations Pvt Ltd</h3>
+                        <p>RISE Foundation IISER, Mohanpur, Nadia – 741246, West Bengal</p>
+                        <p><strong>Email:</strong> <a href="mailto:chemactiva.innovations@gmail.com">chemactiva.innovations@gmail.com</a></p>
+                        <p><strong>Phone:</strong> <a href="tel:+919830117780">+91 983 011 7780</a></p>
+                    </div>
+                    <form class="contact-form glass-card" id="contact-form">
+                        <div class="form-group"><input type="text" name="name" placeholder="Your Name" required></div>
+                        <div class="form-group"><input type="email" name="email" placeholder="Your Email" required></div>
+                        <div class="form-group"><input type="text" name="subject" placeholder="Subject" required></div>
+                        <div class="form-group"><textarea name="message" placeholder="Your Message" required></textarea></div>
+                        <button type="submit" class="btn-modern">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer-modern">
+            <div class="container"><p>&copy; <span id="current-year"></span> ChemActiva Innovations. <a href="/blog">Blog</a></p></div>
+        </footer>
+    </main>
+
+    <script is:inline>
+        /**
+         * Authored by Shuvam Banerji Seal
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Leaves
+            const leavesContainer = document.getElementById('leaves-container');
+            const leafEmojis = ['🍃', '🌿', '☘️', '🌱'];
+            for (let i = 0; i < 12; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.top = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leavesContainer.appendChild(leaf);
+            }
+
+            // Hamburger
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
+            navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); navMenu.classList.remove('active'); }));
+
+            // Theme
+            const themeBtn = document.getElementById('theme-toggle');
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.textContent = '☀️'; }
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); const isLight = document.body.classList.contains('light-mode'); themeBtn.textContent = isLight ? '☀️' : '🌙'; localStorage.setItem('theme', isLight ? 'light' : 'dark'); });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Typewriter
+            const textEl = document.getElementById('typewriter');
+            const phrases = ["Green Technology", "Nano Cellulose", "Sustainable Solutions"];
+            let pi = 0, ci = 0, del = false;
+            function type() {
+                const p = phrases[pi];
+                textEl.textContent = p.substring(0, del ? --ci : ++ci);
+                textEl.classList.add('typewriter-text');
+                if (!del && ci === p.length) { del = true; setTimeout(type, 1500); }
+                else if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; setTimeout(type, 300); }
+                else setTimeout(type, del ? 40 : 70);
+            }
+            type();
+
+            // Hero Images & Slideshow
+            const heroImages = [
+                { img: '/assets/images/Panel_1_Crystalline_Nano_Cellulose.webp', text: 'Crystalline Nano Cellulose' },
+                { img: '/assets/images/Panel_2_Oil_Spill_Kits.webp', text: 'Advanced Oil Spill Kits' },
+                { img: '/assets/images/Panel_3_HDFC_Parivartan_CSR_Grant.webp', text: 'HDFC Parivartan Grant' },
+                { img: '/assets/images/Panel_4_DST_NIDHI_PRAYAS.webp', text: 'DST NIDHI PRAYAS Award' },
+                { img: '/assets/images/Panel_5_Blue_Economy_Mission_Award.webp', text: 'Blue Economy Award' }
+            ];
+            const heroStack = document.getElementById('hero-stack');
+            let heroIdx = 0;
+            
+            heroImages.forEach((data, i) => {
+                const div = document.createElement('div');
+                div.className = 'hero-stack-image';
+                div.innerHTML = `<img src="${data.img}" alt="${data.text}" loading="lazy">`;
+                heroStack.appendChild(div);
+            });
+
+            function updateStack() {
+                heroStack.querySelectorAll('.hero-stack-image').forEach((card, i) => {
+                    card.className = 'hero-stack-image';
+                    const pos = (i - heroIdx + heroImages.length) % heroImages.length;
+                    if (pos === 0) card.classList.add('active');
+                    else if (pos === 1) card.classList.add('behind-1');
+                    else if (pos === 2) card.classList.add('behind-2');
+                    else if (pos === 3) card.classList.add('behind-3');
+                    else card.classList.add('hidden');
+                });
+            }
+            updateStack();
+            setInterval(() => { heroIdx = (heroIdx + 1) % heroImages.length; updateStack(); }, 3000);
+
+            // Slideshow Modal
+            const modal = document.getElementById('slideshow-modal');
+            const modalImg = document.getElementById('slideshow-image');
+            const modalCap = document.getElementById('slideshow-caption');
+            const dotsContainer = document.getElementById('slideshow-dots');
+            let slideIdx = 0;
+
+            // Create dots
+            heroImages.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'slideshow-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => { slideIdx = i; showSlide(); });
+                dotsContainer.appendChild(dot);
+            });
+
+            function showSlide() {
+                modalImg.src = heroImages[slideIdx].img;
+                modalCap.textContent = heroImages[slideIdx].text;
+                dotsContainer.querySelectorAll('.slideshow-dot').forEach((d, i) => d.classList.toggle('active', i === slideIdx));
+            }
+
+            document.getElementById('hero-visual').addEventListener('click', () => {
+                slideIdx = heroIdx;
+                showSlide();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            document.getElementById('slideshow-close').addEventListener('click', () => { modal.classList.remove('active'); document.body.style.overflow = ''; });
+            modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }});
+            document.getElementById('slideshow-prev').addEventListener('click', () => { slideIdx = (slideIdx - 1 + heroImages.length) % heroImages.length; showSlide(); });
+            document.getElementById('slideshow-next').addEventListener('click', () => { slideIdx = (slideIdx + 1) % heroImages.length; showSlide(); });
+            document.addEventListener('keydown', (e) => {
+                if (!modal.classList.contains('active')) return;
+                if (e.key === 'Escape') { modal.classList.remove('active'); document.body.style.overflow = ''; }
+                if (e.key === 'ArrowLeft') { slideIdx = (slideIdx - 1 + heroImages.length) % heroImages.length; showSlide(); }
+                if (e.key === 'ArrowRight') { slideIdx = (slideIdx + 1) % heroImages.length; showSlide(); }
+            });
+
+            // Load Data
+            async function loadData() {
+                try {
+                    const jRes = await fetch('/journey.jsonl');
+                    const jText = await jRes.text();
+                    document.getElementById('journey-container').innerHTML = jText.trim().split('\n').map(JSON.parse).map(item => `
+                        <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-date">${item.date}</div>
+                        <div class="glass-card" style="padding: 1rem;"><h4 style="margin-bottom:0.25rem;">${item.event}</h4><p style="margin:0;font-size:0.85rem;">${item.details}</p></div></div>
+                    `).join('');
+
+                    const tRes = await fetch('/team.jsonl');
+                    const tText = await tRes.text();
+                    const all = tText.trim().split('\n').map(JSON.parse);
+                    
+                    const team = all.filter(m => m.position !== "Advisor" && m.position !== "Past Member" && m.bio);
+                    document.getElementById('team-container').innerHTML = team.map(m => `
+                        <article class="glass-card team-card" onclick="window.location.href='/team/${m.id}'">
+                            <div class="team-img-wrapper">${m.image ? `<img src="${m.image}" alt="${m.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--text-secondary);">${m.name.split(' ').map(n=>n[0]).join('')}</div>`}</div>
+                            <h3>${m.name}</h3><div class="team-role">${m.position}</div>
+                            <p class="team-bio">${m.bio.length > 80 ? m.bio.substring(0, 80) + '...' : m.bio}</p>
+                        </article>
+                    `).join('');
+
+                    const advisors = all.filter(m => m.position === "Advisor");
+                    document.getElementById('advisors-container').innerHTML = advisors.map(a => `
+                        <article class="glass-card advisor-card" onclick="window.location.href='/team/${a.id}'">
+                            <div class="advisor-img-wrapper">${a.image ? `<img src="${a.image}" alt="${a.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">${a.name.split(' ').map(n=>n[0]).join('')}</div>`}</div>
+                            <h3>${a.name}</h3><div class="team-role">${a.position}</div>
+                            <p class="team-bio">${a.bio.length > 100 ? a.bio.substring(0, 100) + '...' : a.bio}</p>
+                        </article>
+                    `).join('');
+                } catch (e) { console.error(e); }
+            }
+            loadData();
+
+            // Products
+            const products = [
+                { name: 'Domestic Oil Spill Kit', cat: 'Oil Spill', img: '/assets/images/products/Domestic_oil_spill_kit_1.webp', desc: 'Absorbs oil 50x its weight.' },
+                { name: 'Greenulose™', cat: 'Nanocellulose', img: '/assets/images/products/Nano_cellulose_1.webp', desc: 'Plant-based nanocrystalline cellulose.' },
+                { name: 'Marine Oil Spill Kit', cat: 'Marine', img: '/assets/images/products/Marine_oil_spill_kit.webp', desc: 'Biodegradable marine cleanup.' }
+            ];
+            document.getElementById('products-container').innerHTML = products.map(p => `
+                <article class="product-card-modern" onclick="window.location.href='/products'">
+                    <div class="product-image-wrapper"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                    <div class="product-info"><span class="product-category-tag">${p.cat}</span><h3>${p.name}</h3><p>${p.desc}</p></div>
+                </article>
+            `).join('');
+
+            // Contact
+            document.getElementById('contact-form').addEventListener('submit', function(e) { e.preventDefault(); alert('Thank you! We will respond soon.'); this.reset(); });
+        });
+    </script>
+</body>
+</html>

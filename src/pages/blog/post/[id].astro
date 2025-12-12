@@ -1,0 +1,144 @@
+---
+/**
+ * Dynamic Blog Post Page
+ * Authored by Shuvam Banerji Seal
+ */
+import '../../../styles/modern-design.css';
+import fs from 'node:fs';
+
+export async function getStaticPaths() {
+    const blogPath = './public/blog.jsonl';
+    const blogData = fs.readFileSync(blogPath, 'utf-8')
+        .trim()
+        .split('\n')
+        .map(line => JSON.parse(line));
+    
+    return blogData.map(post => ({
+        params: { id: post.id },
+        props: { post }
+    }));
+}
+
+const { post } = Astro.props;
+const title = `${post.title} - ChemActiva Blog`;
+const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={post.abstract}>
+    <meta name="author" content={post.author}>
+    <meta property="og:type" content="article">
+    <meta property="og:title" content={post.title}>
+    <meta property="og:description" content={post.abstract}>
+    <meta property="og:image" content={`${siteUrl}${post.coverImage}`}>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="leaves-container" id="leaves-container"></div>
+
+    <nav class="modern-navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-logo"><img src="/assets/images/logo.png" alt="ChemActiva"></a>
+            <div class="nav-links-modern" id="nav-menu">
+                <a href="/#our-journey">Journey</a>
+                <a href="/products">Products</a>
+                <a href="/blog" style="color: var(--accent-secondary);">Blog</a>
+                <a href="/#team">Team</a>
+                <a href="/#contact">Contact</a>
+                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <main style="padding-top: 100px;">
+        <section style="padding: 2rem 0;">
+            <div class="container">
+                <a href="/blog" style="color: var(--accent-secondary); margin-bottom: 1rem; display: inline-block;">← Back to Blog</a>
+                
+                <img src={post.coverImage} alt={post.title} style="width: 100%; max-height: 350px; object-fit: cover; border-radius: 1rem; margin-bottom: 1.5rem;">
+                
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    {post.tags.map(tag => <span class="blog-tag">{tag}</span>)}
+                </div>
+                
+                <h1 style="margin-bottom: 0.5rem;">{post.title}</h1>
+                
+                <div style="display: flex; gap: 1rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">
+                    <span>📅 {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span>✍️ {post.author}</span>
+                </div>
+            </div>
+        </section>
+        
+        <section style="padding-bottom: var(--section-padding);">
+            <div class="container">
+                <div class="blog-content glass-card" id="blog-content">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer-modern">
+            <div class="container"><p>&copy; <span id="current-year"></span> ChemActiva. <a href="/blog">More Articles</a></p></div>
+        </footer>
+    </main>
+
+    <script is:inline define:vars={{ markdownFile: post.markdownContentFile }}>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const leavesContainer = document.getElementById('leaves-container');
+            for (let i = 0; i < 6; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.textContent = ['🍃', '🌿', '☘️'][Math.floor(Math.random() * 3)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.top = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leavesContainer.appendChild(leaf);
+            }
+
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navMenu.classList.toggle('active'); });
+
+            const themeBtn = document.getElementById('theme-toggle');
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.textContent = '☀️'; }
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); themeBtn.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙'; localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Load markdown
+            try {
+                const res = await fetch(markdownFile);
+                const md = await res.text();
+                document.getElementById('blog-content').innerHTML = renderMd(md);
+            } catch (e) {
+                document.getElementById('blog-content').innerHTML = '<p style="color: var(--accent-secondary);">Error loading content.</p>';
+            }
+        });
+
+        function renderMd(md) {
+            return md
+                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color: var(--accent-secondary);">$1</a>')
+                .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%; border-radius: 0.75rem; margin: 1rem 0;">')
+                .replace(/```[\s\S]+?```/g, m => '<pre><code>' + m.slice(3, -3) + '</code></pre>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+        }
+    </script>
+</body>
+</html>

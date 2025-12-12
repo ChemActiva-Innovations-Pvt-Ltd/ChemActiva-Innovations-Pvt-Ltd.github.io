@@ -51,7 +51,7 @@ body.dark-mode .journey-timeline::before {
 .timeline-item::before {
     content: '';
     position: absolute;
-    width: 30px;
+    width: 42px; /* Increased from 30px to bridge gap */
     height: 2px;
     background-color: var(--color-accent-secondary);
     top: 50%;
@@ -59,10 +59,10 @@ body.dark-mode .journey-timeline::before {
     z-index: 0;
 }
 .timeline-item:nth-child(odd)::before {
-    right: 20px;
+    right: 9px; /* Reduced from 20px to touch the dot (radius 9px) */
 }
 .timeline-item:nth-child(even)::before {
-    left: 20px;
+    left: 9px; /* Reduced from 20px to touch the dot (radius 9px) */
 }
 
 .timeline-item::after { /* Dot on the timeline */
