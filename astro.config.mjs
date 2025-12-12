@@ -1,8 +1,9 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
-// https://astro.build/config
 export default defineConfig({
-    // Enable support for standard HTML features and optimized builds
+    site: 'https://chemactiva-innovations-pvt-ltd.github.io',
+    integrations: [sitemap()],
     build: {
         inlineStylesheets: 'auto',
     },
