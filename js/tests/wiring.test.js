@@ -142,11 +142,12 @@ describe('SVG migration (no emoji UI)', () => {
     }
   });
 
-  test('feature icons use SVG files', () => {
+  test('feature icons are inline SVG (theme-aware currentColor)', () => {
     const src = fs.readFileSync(path.join(ROOT, 'src', 'pages', 'index.astro'), 'utf8');
-    expect(src).toContain('/assets/icons/leaf.svg');
-    expect(src).toContain('/assets/icons/microscope.svg');
-    expect(src).toContain('/assets/icons/wave.svg');
+    expect(src).toContain('class="icon-svg"');
+    expect(src).toContain('M12 21C7 16.5'); // leaf path
+    expect(src).toContain('17.5" cy="6.5"'); // microscope icon
+    expect(src).toContain('M2 12c2-2.5 4-2.5 6 0'); // wave icon path
   });
 
   test('SVG icon files exist', () => {
@@ -187,22 +188,29 @@ describe('SEO / canonical domain', () => {
 describe('Service worker v2', () => {
   test('precache list contains only URLs that exist in the built site', () => {
     const sw = fs.readFileSync(path.join(ROOT, 'public', 'sw.js'), 'utf8');
-    // Precached URLs must resolve either in public/ (static) or be a built
-    // route ("/", "/products/", "/blog/") — verified against the source tree
-    // so the test passes in CI before `astro build` runs.
-    const urls = [...sw.matchAll(/'(\/[^']*)'/g)].map((m) => m[1]).filter((u) => u !== '/');
-    const builtRoutes = new Set(['/products/', '/blog/']); // src/pages/* routes
+    // Extract ONLY the PRECACHE_URLS array literal, not other strings in the file
+    const m = sw.match(/PRECACHE_URLS = \[([\s\S]*?)\]/);
+    expect(m).toBeTruthy();
+    const urls = [...m[1].matchAll(/'(\/[^']*)'/g)].map((x) => x[1]);
+    expect(urls.length).toBeGreaterThan(3);
     const missing = [];
     for (const url of urls) {
-      if (builtRoutes.has(url)) continue;
       if (!fs.existsSync(path.join(ROOT, 'public', url.slice(1)))) missing.push(url);
     }
     expect(missing).toEqual([]);
   });
 
-  test('cache version bumped to v2', () => {
+  test('SW is network-first for navigations (no stale HTML 404s)', () => {
     const sw = fs.readFileSync(path.join(ROOT, 'public', 'sw.js'), 'utf8');
-    expect(sw).toContain('chemactiva-v2.0.0');
-    expect(sw).not.toContain('chemactiva-v1');
+    expect(sw).toContain('request.mode === \'navigate\'');
+    expect(sw).toContain('networkFirst');
+    // cache-first only for immutable hashed assets
+    expect(sw).toContain('url.pathname.startsWith(\'/_astro/\')');
+  });
+
+  test('cache version bumped past v2.0.0', () => {
+    const sw = fs.readFileSync(path.join(ROOT, 'public', 'sw.js'), 'utf8');
+    expect(sw).toMatch(/chemactiva-v2\.\d+\.\d+/);
+    expect(sw).not.toContain('CACHE_NAME = \'chemactiva-v2.0.0\'');
   });
 });

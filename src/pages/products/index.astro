@@ -64,9 +64,9 @@ const description = "Explore sustainable nanocellulose products including Greenu
                 <h1>Our <span class="text-gradient">Products</span></h1>
                 <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem;">Sustainable solutions powered by nanocellulose.</p>
                 <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
-                    <span class="btn-outline product-badge" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.4rem;"><img src="/assets/icons/leaf.svg" alt="" width="16" height="16" style="filter: none;"> Biodegradable</span>
-                    <span class="btn-outline product-badge" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.4rem;"><img src="/assets/icons/recycle.svg" alt="" width="16" height="16" style="filter: none;"> Circular Economy</span>
-                    <span class="btn-outline product-badge" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.4rem;"><img src="/assets/icons/microscope.svg" alt="" width="16" height="16" style="filter: none;"> Science-Driven</span>
+                    <span class="btn-outline product-badge" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21C7 16.5 4 13 4 9.5 4 6 6.5 3.5 10 3.5c1 0 2 .25 2 .25S13.5 3 15 3.5 20 6 20 9.5c0 3.5-3 7-8 11.5z" opacity="0.9"/><path d="M12 21c0-6 .5-10 3-14" opacity="0.5" stroke-width="1"/></svg> Biodegradable</span>
+                    <span class="btn-outline product-badge" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 19H4.5a2 2 0 0 1-1.7-3l2-3.4"/><path d="M9.5 4.6A2 2 0 0 1 13 5.8l1.8 3"/><path d="M19 9.5l2.2 3.8a2 2 0 0 1-1.7 3H17"/><path d="M4.8 12.6L7 19l-2.2-.5"/><path d="M14.8 8.8l-4.5-1 .6-2"/><path d="M17 16.3l1.2-4.4 2 .9"/><circle cx="12" cy="12" r="1.2"/></svg> Circular Economy</span>
+                    <span class="btn-outline product-badge" style="cursor: default; font-size: 0.8rem; padding: 0.5rem 1rem; display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18h8"/><path d="M9 14l6-9 3.5 2.3-6 9z"/><path d="M8.5 13.5L11 15"/><path d="M5 18c0-1 .8-2 2-2h6c1.2 0 2 1 2 2v2H5z"/><circle cx="17.5" cy="6.5" r="1"/></svg> Science-Driven</span>
                 </div>
             </div>
         </section>
@@ -191,13 +191,20 @@ const description = "Explore sustainable nanocellulose products including Greenu
             const grid = document.getElementById('products-grid');
             grid.innerHTML = products.map((p, idx) => {
                 const rev = idx % 2 === 1;
-                const mainDims = p.id === 'miok' ? 'width="394" height="652"' : 'width="1200" height="900"';
+                // Aspect-ratio aware main image: portrait sources get .portrait
+                // (3:4 cover), landscape get 4:3 — set from image metadata
+                const mainImgs = {
+                    lbdn: { src: p.images[0], ratio: '1200 / 1028' },
+                    miok: { src: p.images[0], ratio: '394 / 652', portrait: true },
+                    mosk: { src: p.images[0], ratio: '1200 / 900' }
+                };
+                const m = mainImgs[p.id] || { src: p.images[0], ratio: '4 / 3' };
                 return `
                 <article class="glass-card product-detail-grid">
                     <div class="product-gallery" style="order: ${rev ? 2 : 1};">
-                        <img class="product-main-image" id="main-${p.id}" src="${p.images[0]}" alt="${p.name}" ${mainDims} ${idx === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+                        <img class="product-main-image${m.portrait ? ' portrait' : ''}" id="main-${p.id}" src="${m.src}" alt="${p.name}" style="aspect-ratio: ${m.ratio};" ${idx === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
                         <div class="product-thumbnails">
-                            ${p.images.map((img, i) => `<img src="${img}" alt="View ${i+1}" width="120" height="90" class="product-thumb ${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" onclick="document.getElementById('main-${p.id}').src='${img}'; this.parentElement.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');">`).join('')}
+                            ${p.images.map((img, i) => `<img src="${img}" alt="View ${i+1}" width="72" height="72" class="product-thumb ${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" onclick="document.getElementById('main-${p.id}').src='${img}'; this.parentElement.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');">`).join('')}
                         </div>
                     </div>
                     <div class="product-details" style="order: ${rev ? 1 : 2};">

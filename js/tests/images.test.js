@@ -117,9 +117,23 @@ describe('image pipeline', () => {
     }
   });
 
-  test('all three new products have images', () => {
-    for (const f of ['microscope_immersion_oil_kit.webp', 'crystalline_nano_cellulose_new.webp', 'marine_oil_spill_kit_new.webp']) {
-      expect(fs.existsSync(path.join(PUBLIC, 'assets', 'images', 'products', f))).toBe(true);
+  test('hero slides are uniform 16:7 (1280x560)', async () => {
+    const hits = rastersUnder(path.join(PUBLIC, 'assets', 'images', 'slides'));
+    expect(hits.length).toBe(10);
+    for (const h of hits) {
+      const meta = await sharp(h).metadata();
+      expect(meta.width).toBe(1280);
+      expect(meta.height).toBe(560);
+    }
+  });
+
+  test('team images are uniform 3:4 (600x800)', async () => {
+    const hits = rastersUnder(path.join(PUBLIC, 'assets', 'images', 'team'));
+    expect(hits.length).toBeGreaterThan(5);
+    for (const h of hits) {
+      const meta = await sharp(h).metadata();
+      expect(meta.width).toBe(600);
+      expect(meta.height).toBe(800);
     }
   });
 });

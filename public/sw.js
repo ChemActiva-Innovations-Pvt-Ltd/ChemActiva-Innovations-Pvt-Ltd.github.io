@@ -1,25 +1,20 @@
-// Service Worker for ChemActiva Website — v2.0.0
-// Precaches the real app shell (built routes + assets) and runtime-caches
-// images/data with stale-while-revalidate. Previous v1 precache list pointed
-// at pre-Astro URLs (/css/*, /js/main.js, /index.html) that 404 on the Astro
-// build, which made install() fail and the SW never activate.
+// Service Worker for ChemActiva Website — v2.1.0
+// Strategy:
+//   - Navigations (HTML): network-first with cache fallback (users always get
+//     the latest deploy; offline falls back to cache). The v2.0.0 cache-first
+//     strategy served stale HTML referencing deleted hashed assets -> 404s.
+//   - Hashed assets (_astro/*): cache-first (immutable content hashes).
+//   - Images: stale-while-revalidate in a dedicated cache.
+//   - Data (jsonl): network-first with cache fallback.
 
-const CACHE_NAME = 'chemactiva-v2.0.0';
+const CACHE_NAME = 'chemactiva-v2.1.0';
 const IMAGE_CACHE = 'chemactiva-images-v2';
-
-// App shell: routes + the assets every page needs (all exist in dist/)
 const PRECACHE_URLS = [
-    '/',
-    '/products/',
-    '/blog/',
     '/manifest.json',
     '/favicon.svg',
-    '/assets/images/icon-512.png',
     '/assets/images/icon-192.png',
-    '/blog.jsonl',
-    '/team.jsonl',
-    '/journey.jsonl',
-    '/research.jsonl'
+    '/assets/images/icon-512.png',
+    '/assets/images/logo.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -42,8 +37,37 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Stale-while-revalidate for images (immutable-ish, byte-optimized webp)
-async function swr(request, cacheName) {
+async function networkFirst(request, cacheName, fallbackUrl) {
+    const cache = await caches.open(cacheName);
+    try {
+        const response = await fetch(request);
+        if (response && response.status === 200 && response.type === 'basic') {
+            cache.put(request, response.clone());
+        }
+        return response;
+    } catch (err) {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+        if (fallbackUrl) {
+            const fallback = await cache.match(fallbackUrl);
+            if (fallback) return fallback;
+        }
+        throw err;
+    }
+}
+
+async function cacheFirst(request, cacheName) {
+    const cache = await caches.open(cacheName);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    const response = await fetch(request);
+    if (response && response.status === 200 && response.type === 'basic') {
+        cache.put(request, response.clone());
+    }
+    return response;
+}
+
+async function staleWhileRevalidate(request, cacheName) {
     const cache = await caches.open(cacheName);
     const cached = await cache.match(request);
     const fetchPromise = fetch(request).then((response) => {
@@ -58,26 +82,36 @@ async function swr(request, cacheName) {
 self.addEventListener('fetch', (event) => {
     const { request } = event;
     if (request.method !== 'GET') return;
+
     const url = new URL(request.url);
     if (url.origin !== self.location.origin) return;
 
-    // Images: stale-while-revalidate in dedicated cache
-    if (/\.(webp|png|jpg|jpeg|svg|avif)$/i.test(url.pathname)) {
-        event.respondWith(swr(request, IMAGE_CACHE));
+    // HTML navigations: network-first (fresh deploys), cache fallback offline
+    if (request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html')) {
+        event.respondWith(
+            networkFirst(request, CACHE_NAME, '/').catch(() => caches.match('/'))
+        );
         return;
     }
 
-    // Everything else same-origin: cache-first, then network, cache the 200s
-    event.respondWith(
-        caches.match(request).then((cached) => {
-            if (cached) return cached;
-            return fetch(request).then((response) => {
-                if (response && response.status === 200 && response.type === 'basic') {
-                    const clone = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-                }
-                return response;
-            }).catch(() => caches.match('/'));
-            }).catch(() => caches.match('/'))
-    );
+    // Hashed build assets: immutable, cache-first
+    if (url.pathname.startsWith('/_astro/')) {
+        event.respondWith(cacheFirst(request, CACHE_NAME));
+        return;
+    }
+
+    // Images: stale-while-revalidate
+    if (/\.(webp|png|jpg|jpeg|svg|avif)$/i.test(url.pathname)) {
+        event.respondWith(staleWhileRevalidate(request, IMAGE_CACHE));
+        return;
+    }
+
+    // Data files (jsonl): network-first
+    if (url.pathname.endsWith('.jsonl')) {
+        event.respondWith(networkFirst(request, CACHE_NAME));
+        return;
+    }
+
+    // Everything else same-origin GET: network-first with cache fallback
+    event.respondWith(networkFirst(request, CACHE_NAME));
 });
