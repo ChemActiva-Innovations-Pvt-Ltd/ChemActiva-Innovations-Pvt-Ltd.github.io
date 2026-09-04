@@ -80,28 +80,28 @@ const siteUrl = "https://chemactiva.com";
             <div class="hero-bg-glow glow-bottom-left"></div>
             <div class="container hero-grid-modern">
                 <div class="hero-text-content">
-                    <h1>Pioneering <span class="text-gradient" id="typewriter"></span><br>for a Cleaner Future</h1>
+                    <h1>Pioneering <span class="text-gradient" id="typewriter" aria-live="polite"></span><br>for a Cleaner Future</h1>
                     <p class="hero-description">ChemActiva harnesses green technology and the indigenous shola plant to transform renewable biomass into advanced, sustainable biomaterials.</p>
                     <div class="hero-buttons">
                         <a href="/products" class="btn-modern">Explore Solutions</a>
                         <a href="#contact" class="btn-outline">Get in Touch</a>
                     </div>
                 </div>
-                <div class="hero-visual-modern" id="hero-visual">
+                <div class="hero-visual-modern" id="hero-visual" role="button" tabindex="0" aria-label="Open image slideshow">
                     <div class="hero-image-stack" id="hero-stack"></div>
                     <div class="click-hint">Click to view slideshow</div>
                 </div>
             </div>
         </section>
 
-        <section id="our-journey" style="padding: var(--section-padding);">
+        <section id="our-journey" class="reveal" style="padding: var(--section-padding);">
             <div class="container">
                 <h2>Our <span class="text-gradient">Journey</span></h2>
-                <div class="timeline-container" id="journey-container"><p>Loading...</p></div>
+                <div class="timeline-container" id="journey-container" aria-busy="true"><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line" style="width:80%"></div><div class="skeleton skeleton-line" style="width:60%"></div></div>
             </div>
         </section>
 
-        <section id="innovation" class="features-modern">
+        <section id="innovation" class="features-modern reveal">
             <div class="container">
                 <h2>Our <span class="text-gradient">Core Innovations</span></h2>
                 <p style="color: var(--text-secondary); max-width: 720px; margin: 0 auto 2rem; text-align: center; line-height: 1.7;">
@@ -110,14 +110,14 @@ const siteUrl = "https://chemactiva.com";
                     that replace hazardous and non-biodegradable alternatives.
                 </p>
                 <div class="grid-3">
-                    <article class="glass-card"><div class="feature-icon-svg" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21C7 16.5 4 13 4 9.5 4 6 6.5 3.5 10 3.5c1 0 2 .25 2 .25S13.5 3 15 3.5 20 6 20 9.5c0 3.5-3 7-8 11.5z" opacity="0.9"/><path d="M12 21c0-6 .5-10 3-14" opacity="0.5" stroke-width="1"/></svg></div><h3>Sustainable Chemicals</h3><p>Low-bulk-density nanocellulose from renewable shola biomass.</p></article>
-                    <article class="glass-card"><div class="feature-icon-svg" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18h8"/><path d="M9 14l6-9 3.5 2.3-6 9z"/><path d="M8.5 13.5L11 15"/><path d="M5 18c0-1 .8-2 2-2h6c1.2 0 2 1 2 2v2H5z"/><circle cx="17.5" cy="6.5" r="1"/></svg></div><h3>Lab Solutions</h3><p>Cellulose-based microscope immersion oil cleaning kits for optical-grade lens care.</p></article>
-                    <article class="glass-card"><div class="feature-icon-svg" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M2 17c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M2 7c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0" opacity="0.5"/></svg></div><h3>Oil Spill Response</h3><p>Reusable, high-absorption kits for marine, industrial and coastal cleanup.</p></article>
+                    <article class="glass-card reveal reveal-scale" style="--reveal-delay: 0s"><div class="feature-icon-svg" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21C7 16.5 4 13 4 9.5 4 6 6.5 3.5 10 3.5c1 0 2 .25 2 .25S13.5 3 15 3.5 20 6 20 9.5c0 3.5-3 7-8 11.5z" opacity="0.9"/><path d="M12 21c0-6 .5-10 3-14" opacity="0.5" stroke-width="1"/></svg></div><h3>Sustainable Chemicals</h3><p>Low-bulk-density nanocellulose from renewable shola biomass.</p></article>
+                    <article class="glass-card reveal reveal-scale" style="--reveal-delay: 0.12s"><div class="feature-icon-svg" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18h8"/><path d="M9 14l6-9 3.5 2.3-6 9z"/><path d="M8.5 13.5L11 15"/><path d="M5 18c0-1 .8-2 2-2h6c1.2 0 2 1 2 2v2H5z"/><circle cx="17.5" cy="6.5" r="1"/></svg></div><h3>Lab Solutions</h3><p>Cellulose-based microscope immersion oil cleaning kits for optical-grade lens care.</p></article>
+                    <article class="glass-card reveal reveal-scale" style="--reveal-delay: 0.24s"><div class="feature-icon-svg" aria-hidden="true"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M2 17c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/><path d="M2 7c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0" opacity="0.5"/></svg></div><h3>Oil Spill Response</h3><p>Reusable, high-absorption kits for marine, industrial and coastal cleanup.</p></article>
                 </div>
             </div>
         </section>
 
-        <section id="products" style="padding: var(--section-padding);">
+        <section id="products" class="reveal" style="padding: var(--section-padding);">
             <div class="container">
                 <h2>Our <span class="text-gradient">Products</span></h2>
                 <div class="products-showcase-grid" id="products-container"></div>
@@ -125,21 +125,21 @@ const siteUrl = "https://chemactiva.com";
             </div>
         </section>
 
-        <section id="team" style="padding: var(--section-padding);">
+        <section id="team" class="reveal" style="padding: var(--section-padding);">
             <div class="container">
                 <h2>Meet the <span class="text-gradient">Team</span></h2>
-                <div class="team-grid-modern" id="team-container"><p>Loading...</p></div>
+                <div class="team-grid-modern" id="team-container" aria-busy="true"><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div></div>
             </div>
         </section>
 
-        <section id="advisors" style="padding: var(--section-padding); background: var(--bg-medium);">
+        <section id="advisors" class="reveal" style="padding: var(--section-padding); background: var(--bg-medium);">
             <div class="container">
                 <h2>Our <span class="text-gradient">Advisors</span></h2>
-                <div class="advisors-grid" id="advisors-container"><p>Loading...</p></div>
+                <div class="advisors-grid" id="advisors-container" aria-busy="true"><div class="skeleton skeleton-circle"></div><div class="skeleton skeleton-circle"></div></div>
             </div>
         </section>
 
-        <section id="contact" class="contact-section">
+        <section id="contact" class="contact-section reveal">
             <div class="container">
                 <h2>Get in <span class="text-gradient">Touch</span></h2>
                 <div class="contact-grid">
@@ -310,9 +310,57 @@ const siteUrl = "https://chemactiva.com";
                     else if (pos === 3) card.classList.add('behind-3');
                     else card.classList.add('hidden');
                 });
+                // Mobile dots
+                const dots = heroStack.querySelectorAll('.hero-dots .dot');
+                dots.forEach((d, i) => d.classList.toggle('current', i === heroIdx));
             }
-            updateStack();
-            setInterval(() => { heroIdx = (heroIdx + 1) % heroImages.length; updateStack(); }, 3500);
+
+            // Mobile progress dots
+            const dotsWrap = document.createElement('div');
+            dotsWrap.className = 'hero-dots';
+            dotsWrap.setAttribute('aria-hidden', 'true');
+            heroImages.forEach((_, i) => {
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (i === 0 ? ' current' : '');
+                dotsWrap.appendChild(dot);
+            });
+            heroStack.appendChild(dotsWrap);
+
+            updateStack(); // initial state
+
+            // Autoplay (all viewports — starts immediately on load)
+            let heroTimer = setInterval(() => { heroIdx = (heroIdx + 1) % heroImages.length; updateStack(); }, 3500);
+
+            // Pause on interaction, resume after idle
+            function pauseHero() { clearInterval(heroTimer); }
+            function resumeHero() {
+                clearInterval(heroTimer);
+                heroTimer = setInterval(() => { heroIdx = (heroIdx + 1) % heroImages.length; updateStack(); }, 3500);
+            }
+
+            // Swipe support (mobile)
+            let touchStartX = null, touchStartY = null;
+            heroStack.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                pauseHero();
+            }, { passive: true });
+            heroStack.addEventListener('touchend', (e) => {
+                if (touchStartX === null) return;
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                const dy = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+                    heroIdx = (heroIdx + (dx < 0 ? 1 : -1) + heroImages.length) % heroImages.length;
+                    updateStack();
+                }
+                touchStartX = null;
+                setTimeout(resumeHero, 4000);
+            }, { passive: true });
+
+            // Visibility: pause when tab hidden, resume when visible
+            document.addEventListener('visibilitychange', () => {
+                document.hidden ? pauseHero() : resumeHero();
+            });
 
             // Slideshow Modal
             const modal = document.getElementById('slideshow-modal');
@@ -335,12 +383,17 @@ const siteUrl = "https://chemactiva.com";
                 dotsContainer.querySelectorAll('.slideshow-dot').forEach((d, i) => d.classList.toggle('active', i === slideIdx));
             }
 
-            document.getElementById('hero-visual').addEventListener('click', () => {
+            const heroVisual = document.getElementById('hero-visual');
+            heroVisual.addEventListener('click', () => {
+                openSlideshow();
+            });
+            heroVisual.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSlideshow(); } });
+            function openSlideshow() {
                 slideIdx = heroIdx;
                 showSlide();
                 modal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-            });
+            }
 
             document.getElementById('slideshow-close').addEventListener('click', () => { modal.classList.remove('active'); document.body.style.overflow = ''; });
             modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }});
@@ -369,7 +422,7 @@ const siteUrl = "https://chemactiva.com";
                     
                     const team = all.filter(m => m.position !== "Advisor" && m.position !== "Past Member" && m.bio);
                     document.getElementById('team-container').innerHTML = team.map(m => `
-                        <article class="glass-card team-card" onclick="window.location.href='/team/${m.id}'">
+                        <article class="glass-card team-card" role="link" tabindex="0" aria-label="View profile of ${m.name}" onclick="window.location.href='/team/${m.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/team/${m.id}'}">
                             <div class="team-img-wrapper">${m.image ? `<img src="${m.image}" alt="${m.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--text-secondary);">${m.name.split(' ').map(n=>n[0]).join('')}</div>`}</div>
                             <h3>${m.name}</h3><div class="team-role">${m.position}</div>
                             <p class="team-bio">${m.bio.length > 80 ? m.bio.substring(0, 80) + '...' : m.bio}</p>
@@ -378,7 +431,7 @@ const siteUrl = "https://chemactiva.com";
 
                     const advisors = all.filter(m => m.position === "Advisor");
                     document.getElementById('advisors-container').innerHTML = advisors.map(a => `
-                        <article class="glass-card advisor-card" onclick="window.location.href='/team/${a.id}'">
+                        <article class="glass-card advisor-card" role="link" tabindex="0" aria-label="View profile of ${a.name}" onclick="window.location.href='/team/${a.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/team/${a.id}'}">
                             <div class="advisor-img-wrapper">${a.image ? `<img src="${a.image}" alt="${a.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">${a.name.split(' ').map(n=>n[0]).join('')}</div>`}</div>
                             <h3>${a.name}</h3><div class="team-role">${a.position}</div>
                             <p class="team-bio">${a.bio.length > 100 ? a.bio.substring(0, 100) + '...' : a.bio}</p>
@@ -395,11 +448,30 @@ const siteUrl = "https://chemactiva.com";
                 { name: 'Marine & Industrial Oil Spill Kit', cat: 'Oil Spill Solution', img: '/assets/images/products/marine_oil_spill_kit_new.webp', desc: 'High-absorption, reusable spill cleanup.', portrait: false }
             ];
             document.getElementById('products-container').innerHTML = products.map(p => `
-                <article class="product-card-modern" onclick="window.location.href='/products'">
+                <article class="product-card-modern" role="link" tabindex="0" aria-label="View ${p.name} details" onclick="window.location.href='/products'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/products'}">
                     <div class="product-image-wrapper"><img src="${p.img}" alt="${p.name}" width="1200" height="900" class="${p.portrait ? 'portrait-showcase' : ''}" loading="lazy" decoding="async"></div>
                     <div class="product-info"><span class="product-category-tag">${p.cat}</span><h3>${p.name}</h3><p>${p.desc}</p></div>
                 </article>
             `).join('');
+
+
+            // Scroll-reveal: sections/cards animate in as they enter viewport
+            (function initReveal() {
+                const els = document.querySelectorAll('.reveal');
+                if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    els.forEach(el => el.classList.add('revealed'));
+                    return;
+                }
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+                els.forEach(el => io.observe(el));
+            })();
 
             // Contact — wired to Google Form (verified entry IDs)
             document.getElementById('contact-form').addEventListener('submit', async function(e) {

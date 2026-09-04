@@ -1190,27 +1190,9 @@ body.light-mode .form-group textarea {
     }
 
     .hero-visual-modern {
-        height: 280px;
+        height: auto;
+        min-height: 0;
         margin-top: 1rem;
-    }
-
-    .hero-stack-image {
-        width: 65%;
-        max-width: 280px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .hero-stack-image.active {
-        transform: translateX(-50%) rotate(0deg);
-    }
-
-    .hero-stack-image.behind-1 {
-        transform: translateX(-40%) rotate(5deg) translateY(10px);
-    }
-
-    .hero-stack-image.behind-2 {
-        transform: translateX(-60%) rotate(-5deg) translateY(25px);
     }
 
     .contact-grid {
@@ -1294,10 +1276,6 @@ body.light-mode .form-group textarea {
         padding: 1.25rem;
     }
 
-    .hero-visual-modern {
-        height: 240px;
-    }
-
     .grid-3,
     .products-showcase-grid,
     .blog-grid {
@@ -1371,11 +1349,7 @@ body.light-mode .form-group textarea {
     }
 
     .hero-visual-modern {
-        height: 200px;
-    }
-
-    .hero-stack-image {
-        width: 70%;
+        height: auto;
     }
 
     .team-grid-modern,
@@ -1933,4 +1907,405 @@ body.light-mode .blog-meta .meta-item svg {
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     .scroll-top-btn, .footer-col a, .back-link { transition: none; }
+}
+
+/* ========================================
+   MOBILE HERO v2 — dedicated architecture
+   Full-bleed cinematic slideshow + large hero text
+   ======================================== */
+.hero-dots { display: none; } /* desktop: card deck needs no dots */
+@media (max-width: 768px) {
+    .hero-modern {
+        min-height: 100svh; /* stable mobile viewport */
+        display: flex;
+        align-items: flex-start;
+        padding-top: 96px; /* navbar clearance */
+    }
+
+    .hero-grid-modern {
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 2rem;
+    }
+
+    .hero-text-content h1 {
+        font-size: clamp(2.1rem, 8.5vw, 3rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.9rem;
+        text-wrap: balance;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+        line-height: 1.65;
+        margin: 0 auto 1.4rem;
+        max-width: 34ch;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .hero-buttons .btn-modern,
+    .hero-buttons .btn-outline {
+        padding: 0.8rem 1.6rem;
+        font-size: 0.95rem;
+        min-height: 48px; /* touch target */
+    }
+
+    /* Mobile slideshow: full-width crossfade carousel */
+    .hero-visual-modern {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin-top: 0.5rem;
+        order: 2;
+    }
+
+    .hero-image-stack {
+        position: relative;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 10;
+        border-radius: 1.25rem;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        touch-action: pan-y; /* allow vertical scroll, capture horizontal swipes */
+    }
+
+    /* ALL slides: crossfade stack (no deck-of-cards) */
+    .hero-stack-image,
+    .hero-stack-image.behind-1,
+    .hero-stack-image.behind-2,
+    .hero-stack-image.behind-3,
+    .hero-stack-image.hidden {
+        position: absolute;
+        inset: 0;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        aspect-ratio: auto !important; /* kill the desktop 16/7 frame */
+        left: 0 !important;
+        top: 0 !important;
+        transform: none !important;
+        opacity: 0;
+        z-index: 1;
+        transition: opacity 0.7s ease;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .hero-stack-image.active {
+        z-index: 5;
+        opacity: 1;
+        transform: none !important;
+        animation: ken-burns 5s ease-out forwards;
+    }
+
+    .hero-stack-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-slide-badge {
+        top: 0.75rem;
+        left: 0.75rem;
+        font-size: 0.68rem;
+        padding: 0.22rem 0.6rem;
+    }
+
+    .hero-slide-caption {
+        font-size: 0.78rem;
+        bottom: 2.6rem; /* above the dots */
+        left: 0.75rem;
+        right: 0.75rem;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Progress dots on mobile slideshow */
+    .hero-dots {
+        position: absolute;
+        bottom: 0.9rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        z-index: 7;
+    }
+
+    .hero-dots .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+        transition: all 0.3s;
+    }
+
+    .hero-dots .dot.current {
+        background: var(--accent-primary);
+        width: 20px;
+        border-radius: 4px;
+    }
+
+    .click-hint {
+        display: none; /* tap target is obvious on touch */
+    }
+}
+
+/* Skeleton loaders */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 0.75rem;
+}
+
+.skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    animation: skeleton-shimmer 1.6s infinite;
+}
+
+body.light-mode .skeleton {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .skeleton::after {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+}
+
+.skeleton-line {
+    height: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-card {
+    height: 320px;
+    border-radius: 1rem;
+}
+
+.skeleton-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    margin: 0 auto 0.75rem;
+}
+
+@keyframes skeleton-shimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* Scroll-reveal animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0s);
+    will-change: opacity, transform;
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left { transform: translateX(-32px); }
+.reveal-right { transform: translateX(32px); }
+.reveal-left.revealed, .reveal-right.revealed { transform: translateX(0); }
+
+.reveal-scale { transform: scale(0.92); }
+.reveal-scale.revealed { transform: scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal { transition: none; opacity: 1; transform: none; }
+    .skeleton::after { animation: none; }
+}
+
+/* ========================================
+   GLASSMORPHISM v2 — dual-theme refraction system
+   Dark: deep green-tinted glass over glow field
+   Light: frosted white glass over soft green field
+   ======================================== */
+
+/* --- Ambient background field (gives the glass something to refract) --- */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+        radial-gradient(600px circle at 15% 20%, rgba(50, 223, 110, 0.07), transparent 55%),
+        radial-gradient(700px circle at 85% 75%, rgba(45, 154, 78, 0.06), transparent 55%),
+        radial-gradient(500px circle at 50% 110%, rgba(50, 223, 110, 0.05), transparent 60%);
+}
+
+body.light-mode::before {
+    background:
+        radial-gradient(600px circle at 15% 20%, rgba(120, 190, 130, 0.18), transparent 55%),
+        radial-gradient(700px circle at 85% 75%, rgba(160, 215, 170, 0.16), transparent 55%),
+        radial-gradient(500px circle at 50% 110%, rgba(200, 235, 205, 0.22), transparent 60%);
+}
+
+/* Subtle noise texture for glass realism (data-URI SVG grain) */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+body.light-mode::after { opacity: 0.5; }
+
+/* --- Glass card v2: layered refraction --- */
+.glass-card {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(50, 223, 110, 0.05) 100%),
+        var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(160%) brightness(1.04);
+    -webkit-backdrop-filter: blur(18px) saturate(160%) brightness(1.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s, border-color 0.35s, background 0.35s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Refraction highlight: top edge light-catch */
+.glass-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+}
+
+/* Caustic shimmer: diagonal light streak inside the glass */
+.glass-card::after {
+    content: "";
+    position: absolute;
+    top: -60%;
+    left: -30%;
+    width: 60%;
+    height: 220%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    transform: rotate(10deg);
+    pointer-events: none;
+    transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(50, 223, 110, 0.4);
+    box-shadow:
+        0 18px 48px rgba(0, 0, 0, 0.25),
+        0 0 32px rgba(50, 223, 110, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.glass-card:hover::after {
+    left: 110%; /* light sweeps across on hover */
+}
+
+/* --- Light-mode glass: frosted, luminous, still refracting --- */
+body.light-mode .glass-card {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.45) 45%, rgba(200, 240, 210, 0.35) 100%),
+        rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(20px) saturate(150%) brightness(1.06);
+    -webkit-backdrop-filter: blur(20px) saturate(150%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow:
+        0 8px 32px rgba(26, 46, 18, 0.10),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(26, 154, 78, 0.06);
+}
+
+body.light-mode .glass-card::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+}
+
+body.light-mode .glass-card::after {
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+}
+
+body.light-mode .glass-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(26, 154, 78, 0.35);
+    box-shadow:
+        0 18px 48px rgba(26, 46, 18, 0.14),
+        0 0 32px rgba(120, 200, 140, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* Glass for nav + modal + forms (inherit the system) */
+body.light-mode .modern-navbar {
+    background: linear-gradient(180deg, rgba(240, 247, 228, 0.85), rgba(240, 247, 228, 0.7));
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.modal-content,
+.slideshow-container {
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+}
+
+body.light-mode .modal-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(245, 252, 240, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 24px 64px rgba(26, 46, 18, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+/* Form fields get subtle glass too */
+.form-group input,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(6px);
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+}
+
+body.light-mode .form-group input,
+body.light-mode .form-group textarea {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(26, 154, 78, 0.25);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    box-shadow: 0 0 0 3px rgba(50, 223, 110, 0.15);
+}
+
+body.light-mode .form-group input:focus,
+body.light-mode .form-group textarea:focus {
+    box-shadow: 0 0 0 3px rgba(26, 154, 78, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .glass-card, .glass-card::after { transition: none; }
 }
