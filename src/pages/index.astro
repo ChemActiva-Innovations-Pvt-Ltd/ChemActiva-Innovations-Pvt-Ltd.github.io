@@ -7,7 +7,7 @@ import '../styles/modern-design.css';
 
 const title = "ChemActiva Innovations - Sustainable Nanocellulose & Green Technology";
 const description = "ChemActiva Innovations pioneers sustainable Nano Cellulose, Oil Spill Kits, and Green Technologies.";
-const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
+const siteUrl = "https://chemactiva.com";
 ---
 
 <!DOCTYPE html>
@@ -32,11 +32,14 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "ChemActiva Innovations Pvt Ltd",
-        "url": "https://chemactiva-innovations-pvt-ltd.github.io",
-        "logo": "https://chemactiva-innovations-pvt-ltd.github.io/assets/images/logo.png"
+        "url": "https://chemactiva.com",
+        "logo": "https://chemactiva.com/assets/images/logo.png"
     }
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="/assets/images/Panel_1_Crystalline_Nano_Cellulose.webp" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -64,7 +67,7 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
                 <a href="/blog">Blog</a>
                 <a href="#team">Team</a>
                 <a href="#contact">Contact</a>
-                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg></button>
             </div>
             <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
         </div>
@@ -77,7 +80,7 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
             <div class="container hero-grid-modern">
                 <div class="hero-text-content">
                     <h1>Pioneering <span class="text-gradient" id="typewriter"></span><br>for a Cleaner Future</h1>
-                    <p class="hero-description">ChemActiva harnesses Nanocellulose and Green Chemistry to solve pressing environmental challenges.</p>
+                    <p class="hero-description">ChemActiva harnesses green technology and the indigenous shola plant to transform renewable biomass into advanced, sustainable biomaterials.</p>
                     <div class="hero-buttons">
                         <a href="/products" class="btn-modern">Explore Solutions</a>
                         <a href="#contact" class="btn-outline">Get in Touch</a>
@@ -100,10 +103,15 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
         <section id="innovation" class="features-modern">
             <div class="container">
                 <h2>Our <span class="text-gradient">Core Innovations</span></h2>
+                <p style="color: var(--text-secondary); max-width: 720px; margin: 0 auto 2rem; text-align: center; line-height: 1.7;">
+                    ChemActiva valorizes the indigenous, non-edible shola plant (<em>Aeschynomene aspera</em> L.) —
+                    abundantly grown in the marshy waterlands of Bengal — into high-value, sustainable biomaterials
+                    that replace hazardous and non-biodegradable alternatives.
+                </p>
                 <div class="grid-3">
-                    <article class="glass-card"><div class="feature-icon">🌿</div><h3>Sustainable Chemicals</h3><p>Biodegradable polymers and crystalline nanocellulose.</p></article>
-                    <article class="glass-card"><div class="feature-icon">💧</div><h3>Oil Spill Kits</h3><p>Plant-based materials absorbing 50x their weight.</p></article>
-                    <article class="glass-card"><div class="feature-icon">♻️</div><h3>Bio-Economy</h3><p>Renewable biological resources for circular economy.</p></article>
+                    <article class="glass-card"><div class="feature-icon-svg" aria-hidden="true"><img src="/assets/icons/leaf.svg" alt="" loading="lazy"></div><h3>Sustainable Chemicals</h3><p>Low-bulk-density nanocellulose from renewable shola biomass.</p></article>
+                    <article class="glass-card"><div class="feature-icon-svg" aria-hidden="true"><img src="/assets/icons/microscope.svg" alt="" loading="lazy"></div><h3>Lab Solutions</h3><p>Cellulose-based microscope immersion oil cleaning kits for optical-grade lens care.</p></article>
+                    <article class="glass-card"><div class="feature-icon-svg" aria-hidden="true"><img src="/assets/icons/wave.svg" alt="" loading="lazy"></div><h3>Oil Spill Response</h3><p>Reusable, high-absorption kits for marine, industrial and coastal cleanup.</p></article>
                 </div>
             </div>
         </section>
@@ -146,6 +154,7 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
                         <div class="form-group"><input type="text" name="subject" placeholder="Subject" required></div>
                         <div class="form-group"><textarea name="message" placeholder="Your Message" required></textarea></div>
                         <button type="submit" class="btn-modern">Send Message</button>
+                        <p id="contact-status" role="status" aria-live="polite" style="font-size: 0.85rem; margin-top: 0.75rem; text-align: center; min-height: 1.2em;"></p>
                     </form>
                 </div>
             </div>
@@ -161,16 +170,18 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
          * Authored by Shuvam Banerji Seal
          */
         document.addEventListener('DOMContentLoaded', () => {
-            // Leaves
+            // Leaves (animated SVG, not emojis)
             const leavesContainer = document.getElementById('leaves-container');
-            const leafEmojis = ['🍃', '🌿', '☘️', '🌱'];
+            const LEAF_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21C7 16.5 4 13 4 9.5 4 6 6.5 3.5 10 3.5c1 0 2 .25 2 .25S13.5 3 15 3.5 20 6 20 9.5c0 3.5-3 7-8 11.5z" opacity="0.9"/><path d="M12 21c0-6 .5-10 3-14" opacity="0.5" stroke-width="1"/></svg>`;
             for (let i = 0; i < 12; i++) {
                 const leaf = document.createElement('div');
-                leaf.className = 'leaf';
-                leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+                leaf.className = 'leaf-svg';
+                leaf.setAttribute('aria-hidden', 'true');
+                leaf.innerHTML = LEAF_SVG;
                 leaf.style.left = Math.random() * 100 + '%';
-                leaf.style.top = Math.random() * 100 + '%';
-                leaf.style.animationDelay = Math.random() * 5 + 's';
+                leaf.style.animationDelay = -(Math.random() * 14) + 's';
+                leaf.style.animationDuration = (10 + Math.random() * 8) + 's';
+                leaf.style.width = leaf.style.height = (18 + Math.random() * 18) + 'px';
                 leavesContainer.appendChild(leaf);
             }
 
@@ -182,8 +193,8 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
 
             // Theme
             const themeBtn = document.getElementById('theme-toggle');
-            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.textContent = '☀️'; }
-            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); const isLight = document.body.classList.contains('light-mode'); themeBtn.textContent = isLight ? '☀️' : '🌙'; localStorage.setItem('theme', isLight ? 'light' : 'dark'); });
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'; }
+            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); const isLight = document.body.classList.contains('light-mode'); themeBtn.innerHTML = isLight ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>'; themeBtn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); });
 
             document.getElementById('current-year').textContent = new Date().getFullYear();
 
@@ -215,7 +226,7 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
             heroImages.forEach((data, i) => {
                 const div = document.createElement('div');
                 div.className = 'hero-stack-image';
-                div.innerHTML = `<img src="${data.img}" alt="${data.text}" loading="lazy">`;
+                div.innerHTML = `<img src="${data.img}" alt="${data.text}" width="1600" height="630" ${i === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>`;
                 heroStack.appendChild(div);
             });
 
@@ -309,19 +320,43 @@ const siteUrl = "https://chemactiva-innovations-pvt-ltd.github.io";
 
             // Products
             const products = [
-                { name: 'Domestic Oil Spill Kit', cat: 'Oil Spill', img: '/assets/images/products/Domestic_oil_spill_kit_1.webp', desc: 'Absorbs oil 50x its weight.' },
-                { name: 'Greenulose™', cat: 'Nanocellulose', img: '/assets/images/products/Nano_cellulose_1.webp', desc: 'Plant-based nanocrystalline cellulose.' },
-                { name: 'Marine Oil Spill Kit', cat: 'Marine', img: '/assets/images/products/Marine_oil_spill_kit.webp', desc: 'Biodegradable marine cleanup.' }
+                { name: 'Low-Bulk-Density Nanocellulose', cat: 'Nanocellulose', img: '/assets/images/products/crystalline_nano_cellulose_new.webp', desc: 'Next-generation plant-based nanocellulose.' },
+                { name: 'Microscope Immersion Oil Cleaning Kit', cat: 'Lab Essentials', img: '/assets/images/products/microscope_immersion_oil_kit.webp', desc: 'Optical-grade cellulose lens care.' },
+                { name: 'Marine & Industrial Oil Spill Kit', cat: 'Oil Spill Solution', img: '/assets/images/products/marine_oil_spill_kit_new.webp', desc: 'High-absorption, reusable spill cleanup.' }
             ];
             document.getElementById('products-container').innerHTML = products.map(p => `
                 <article class="product-card-modern" onclick="window.location.href='/products'">
-                    <div class="product-image-wrapper"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                    <div class="product-image-wrapper"><img src="${p.img}" alt="${p.name}" width="1200" height="900" loading="lazy" decoding="async"></div>
                     <div class="product-info"><span class="product-category-tag">${p.cat}</span><h3>${p.name}</h3><p>${p.desc}</p></div>
                 </article>
             `).join('');
 
-            // Contact
-            document.getElementById('contact-form').addEventListener('submit', function(e) { e.preventDefault(); alert('Thank you! We will respond soon.'); this.reset(); });
+            // Contact — wired to Google Form (verified entry IDs)
+            document.getElementById('contact-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const form = this;
+                const status = document.getElementById('contact-status');
+                const btn = form.querySelector('button[type="submit"]');
+                const data = new FormData(form);
+                status.textContent = 'Sending…'; status.style.color = 'var(--text-secondary)';
+                btn.disabled = true;
+                try {
+                    const body = new URLSearchParams({
+                        'entry.2005620554': data.get('name'),
+                        'entry.1045781291': data.get('email'),
+                        'entry.1065046570': 'RISE Foundation IISER, IISER Kolkata (from website contact form)',
+                        'entry.514031641': data.get('subject'),
+                        'entry.839337160': data.get('message')
+                    });
+                    await fetch('https://docs.google.com/forms/d/e/1FAIpQLSfZ84dsH5xsDtrnseAt47aQJiDD1bB8VYvBIPZ-zHz0eYlfPg/formResponse', {
+                        method: 'POST', mode: 'no-cors', body
+                    });
+                    status.textContent = '✓ Message sent! We will get back to you soon.'; status.style.color = '#7ee787';
+                    form.reset();
+                } catch (err) {
+                    status.textContent = 'Could not send — please email us directly.'; status.style.color = '#ff7b72';
+                } finally { btn.disabled = false; }
+            });
         });
     </script>
 </body>

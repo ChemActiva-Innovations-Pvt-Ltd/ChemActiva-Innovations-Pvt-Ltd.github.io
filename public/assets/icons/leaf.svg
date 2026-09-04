@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Leaf: natural shola-pith leaf shape -->
+  <path d="M12 21C7 16.5 4 13 4 9.5 4 6 6.5 3.5 10 3.5c1 0 2 .25 2 .25S13.5 3 15 3.5 20 6 20 9.5c0 3.5-3 7-8 11.5z" opacity="0.9"/>
+  <path d="M12 21c0-6 .5-10 3-14" opacity="0.5" stroke-width="1"/>
+</svg>

@@ -9,7 +9,7 @@ Nano cellulose is poised to revolutionize multiple industries...
 *   Biodegradable
 
 Here's an image related to our work:
-![Cellulose Structure](/public/assets/images/logo.png "Cellulose Structure Visualization")
+![Cellulose Structure](/assets/images/logo.png "Cellulose Structure Visualization")
 
 ## Applications
 

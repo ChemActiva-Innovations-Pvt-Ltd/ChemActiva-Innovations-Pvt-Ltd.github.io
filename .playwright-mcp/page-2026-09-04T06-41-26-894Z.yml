@@ -1,0 +1,22 @@
+- generic [ref=f21e3]:
+  - generic [ref=f21e5]:
+    - heading "Request for Quotation" [level=1] [ref=f21e7]
+    - generic [ref=f21e8]: Your response has been recorded.
+    - link "Submit another response" [ref=f21e10] [cursor=pointer]:
+      - /url: https://docs.google.com/forms/d/e/1FAIpQLSc_EAjG1Gjymylq5FFgervcxW8t1r0DkV_ONOPZOugHrEsL1A/viewform?usp=form_confirm
+  - generic [ref=f21e11]:
+    - generic [ref=f21e12]:
+      - text: This content is neither created nor endorsed by Google. -
+      - link "Terms of Service" [ref=f21e13] [cursor=pointer]:
+        - /url: https://policies.google.com/terms
+      - text: "-"
+      - link "Privacy Policy" [ref=f21e14] [cursor=pointer]:
+        - /url: https://policies.google.com/privacy
+      - paragraph [ref=f21e15]:
+        - text: Does this form look suspicious?
+        - link "Report" [ref=f21e16] [cursor=pointer]:
+          - /url: https://docs.google.com/forms/d/e/1FAIpQLSc_EAjG1Gjymylq5FFgervcxW8t1r0DkV_ONOPZOugHrEsL1A/abuse
+    - link [ref=f21e18] [cursor=pointer]:
+      - /url: //www.google.com/forms/about/?utm_source=product&utm_medium=forms_logo&utm_campaign=forms
+      - img "Google" [ref=f21e19]
+      - text: Forms

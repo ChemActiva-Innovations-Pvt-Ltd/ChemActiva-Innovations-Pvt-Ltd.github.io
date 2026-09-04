@@ -1,0 +1,68 @@
+- generic [active] [ref=f26e1]:
+  - navigation [ref=f26e2]:
+    - generic [ref=f26e3]:
+      - link [ref=f26e4] [cursor=pointer]:
+        - /url: /
+        - img "ChemActiva" [ref=f26e5]
+      - generic [ref=f26e6] [cursor=pointer]
+  - main [ref=f26e10]:
+    - generic [ref=f26e12]:
+      - heading "Our Blog" [level=1] [ref=f26e13]
+      - paragraph [ref=f26e14]: Insights from sustainable nanocellulose technology.
+    - generic [ref=f26e17]:
+      - article [ref=f26e18] [cursor=pointer]:
+        - img "Building a Sustainable Future with Bio-Based Solutions" [ref=f26e20]
+        - generic [ref=f26e21]:
+          - generic [ref=f26e22]: 📅 Oct 5, 2024
+          - generic [ref=f26e23]: ✍️ Ms. Pompa Dan
+        - heading "Building a Sustainable Future with Bio-Based Solutions" [level=3] [ref=f26e24]
+        - paragraph [ref=f26e25]: How ChemActiva is supporting the transition toward a bio-based economy through renewable biological resources, promoting...
+        - generic [ref=f26e26]:
+          - generic [ref=f26e27]: bio-based
+          - generic [ref=f26e28]: circular economy
+          - generic [ref=f26e29]: sustainability
+      - article [ref=f26e30] [cursor=pointer]:
+        - 'img "Revolutionary Oil Spill Solutions: From Kitchen to Ocean" [ref=f26e32]'
+        - generic [ref=f26e33]:
+          - generic [ref=f26e34]: 📅 Sep 20, 2024
+          - generic [ref=f26e35]: ✍️ Dr. Goutam Kulsi
+        - 'heading "Revolutionary Oil Spill Solutions: From Kitchen to Ocean" [level=3] [ref=f26e36]'
+        - paragraph [ref=f26e37]: Explore ChemActiva's innovative oil spill kits - both domestic and marine solutions that can absorb oil up to 50 times t...
+        - generic [ref=f26e38]:
+          - generic [ref=f26e39]: oil spill
+          - generic [ref=f26e40]: environmental solutions
+          - generic [ref=f26e41]: biodegradable
+      - article [ref=f26e42] [cursor=pointer]:
+        - 'img "Introducing Greenulos™: The Future of Nanocellulose" [ref=f26e44]'
+        - generic [ref=f26e45]:
+          - generic [ref=f26e46]: 📅 Aug 15, 2024
+          - generic [ref=f26e47]: ✍️ Dr. Soumitra Hazra
+        - 'heading "Introducing Greenulos™: The Future of Nanocellulose" [level=3] [ref=f26e48]'
+        - paragraph [ref=f26e49]: Discover how Greenulos™, our carboxylated crystalline nano cellulose, is revolutionizing industries with its high perfor...
+        - generic [ref=f26e50]:
+          - generic [ref=f26e51]: greenulos
+          - generic [ref=f26e52]: nanocellulose
+          - generic [ref=f26e53]: innovation
+      - article [ref=f26e54] [cursor=pointer]:
+        - 'img "ChemActiva''s Journey: From Inception to Innovation" [ref=f26e56]'
+        - generic [ref=f26e57]:
+          - generic [ref=f26e58]: 📅 Jul 28, 2024
+          - generic [ref=f26e59]: ✍️ Dr. Goutam Kulsi
+        - 'heading "ChemActiva''s Journey: From Inception to Innovation" [level=3] [ref=f26e60]'
+        - paragraph [ref=f26e61]: A look back at our remarkable journey from incorporation in January 2023 to becoming a recognized leader in sustainable ...
+        - generic [ref=f26e62]:
+          - generic [ref=f26e63]: company history
+          - generic [ref=f26e64]: milestones
+          - generic [ref=f26e65]: sustainability
+      - article [ref=f26e66] [cursor=pointer]:
+        - 'img "Toward a Sustainable Future: Biofiber" [ref=f26e68]'
+        - generic [ref=f26e69]:
+          - generic [ref=f26e70]: 📅 Jun 15, 2024
+          - generic [ref=f26e71]: ✍️ Dr. Goutam Kulsi
+        - 'heading "Toward a Sustainable Future: Biofiber" [level=3] [ref=f26e72]'
+        - paragraph [ref=f26e73]: The stock of fossil fuels is limited, but the risk is limitless. Exploring the transition from petroleum-based products ...
+        - generic [ref=f26e74]:
+          - generic [ref=f26e75]: biofiber
+          - generic [ref=f26e76]: sustainability
+          - generic [ref=f26e77]: circular economy
+    - paragraph [ref=f26e80]: © 2026 ChemActiva Innovations.

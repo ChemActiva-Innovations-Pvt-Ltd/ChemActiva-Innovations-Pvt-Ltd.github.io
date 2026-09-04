@@ -3,6 +3,8 @@ name: Deploy Astro to GitHub Pages
 on:
   push:
     branches: [main, master]
+  pull_request:
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -11,12 +13,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: Build Astro
+  quality:
+    name: Quality (lint, test, build, link-check)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,7 +27,103 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Test (jest + image pipeline guards)
+        run: npm test
+
+      - name: Build Astro site
+        run: npm run build
+
+      - name: Internal link integrity check
+        run: |
+          node -e "
+          const fs = require('fs'), path = require('path');
+          const dist = './dist';
+          const pages = [];
+          (function walk(d) {
+            for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+              const p = path.join(d, e.name);
+              if (e.isDirectory()) walk(p);
+              else if (e.name === 'index.html') pages.push(p);
+            }
+          })(dist);
+          let broken = 0, checked = new Set();
+          const re = /(?:href|src)=\"(\/[^\"]*)\"/g;
+          for (const page of pages) {
+            const html = fs.readFileSync(page, 'utf8');
+            let m;
+            while ((m = re.exec(html))) {
+              const url = m[1].split('?')[0];
+              if (checked.has(url)) continue;
+              checked.add(url);
+              let t = url.endsWith('/') ? url + 'index.html' : url;
+              if (!fs.existsSync(path.join(dist, t.slice(1)))) {
+                console.error('BROKEN:', path.relative(dist, page), '->', url);
+                broken++;
+              }
+            }
+          }
+          console.log(\`pages: \${pages.length}, links: \${checked.size}, broken: \${broken}\`);
+          process.exit(broken ? 1 : 0);
+          "
+
+      - name: Image budget check (fail if any asset > 350KB)
+        run: |
+          BIG=$(find public/assets -type f \( -iname "*.webp" -o -iname "*.png" -o -iname "*.jpg" \) -size +350k)
+          if [ -n "$BIG" ]; then echo "::error::Oversized images:"; echo "$BIG"; exit 1; fi
+          echo "All images within 350KB budget"
+
+  lighthouse:
+    name: Lighthouse (PR preview only)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        run: |
+          npm i -g @lhci/cli@0.14.x
+          lhci autorun --collect.staticDistDir=dist --collect.numberOfRuns=1 \
+            --assert.assertions.categories:performance="off" \
+            --assert.assertions.categories:accessibility="off" \
+            --assert.assertions.categories:best-practices="warn" \
+            --assert.assertions.categories:seo="warn" || true
+
+  build:
+    name: Build & Upload (main)
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
           cache: npm
 
       - name: Setup Pages
@@ -45,8 +143,9 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

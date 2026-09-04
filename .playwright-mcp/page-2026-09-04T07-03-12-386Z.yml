@@ -1,0 +1,151 @@
+- generic [active] [ref=f23e1]:
+  - navigation [ref=f23e2]:
+    - generic [ref=f23e3]:
+      - link [ref=f23e4] [cursor=pointer]:
+        - /url: /
+        - img "ChemActiva" [ref=f23e5]
+      - generic [ref=f23e6]:
+        - link "Journey" [ref=f23e7] [cursor=pointer]:
+          - /url: "#our-journey"
+        - link "Innovation" [ref=f23e8] [cursor=pointer]:
+          - /url: "#innovation"
+        - link "Products" [ref=f23e9] [cursor=pointer]:
+          - /url: /products
+        - link "Blog" [ref=f23e10] [cursor=pointer]:
+          - /url: /blog
+        - link "Team" [ref=f23e11] [cursor=pointer]:
+          - /url: "#team"
+        - link "Contact" [ref=f23e12] [cursor=pointer]:
+          - /url: "#contact"
+        - button "Toggle dark/light theme" [ref=f23e13] [cursor=pointer]
+  - main [ref=f23e16]:
+    - generic [ref=f23e18]:
+      - generic [ref=f23e19]:
+        - heading "Pioneering Gr| for a Cleaner Future" [level=1] [ref=f23e20]: Pioneering Gr|for a Cleaner Future
+        - paragraph [ref=f23e21]: ChemActiva harnesses green technology and the indigenous shola plant to transform renewable biomass into advanced, sustainable biomaterials.
+        - generic [ref=f23e22]:
+          - link "Explore Solutions" [ref=f23e23] [cursor=pointer]:
+            - /url: /products
+          - link "Get in Touch" [ref=f23e24] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=f23e25] [cursor=pointer]:
+        - generic [ref=f23e26]:
+          - img "Crystalline Nano Cellulose" [ref=f23e28]
+          - img "Advanced Oil Spill Kits" [ref=f23e30]
+          - img "HDFC Parivartan Grant" [ref=f23e32]
+          - img "DST NIDHI PRAYAS Award" [ref=f23e34]
+          - img "Blue Economy Award" [ref=f23e36]
+        - generic [ref=f23e37]: Click to view slideshow
+    - generic [ref=f23e39]:
+      - heading "Our Journey" [level=2] [ref=f23e40]
+      - generic [ref=f23e41]:
+        - generic [ref=f23e42]:
+          - generic [ref=f23e44]:
+            - text: "6"
+            - superscript [ref=f23e45]: th
+            - text: January, 2023
+          - generic [ref=f23e46]:
+            - heading "Incorporated and established" [level=4] [ref=f23e47]
+            - paragraph [ref=f23e48]: The official start of ChemActiva Innovations Pvt Ltd.
+        - generic [ref=f23e49]:
+          - generic [ref=f23e51]:
+            - text: "1"
+            - superscript [ref=f23e52]: st
+            - text: February, 2023
+          - generic [ref=f23e53]:
+            - heading "Incubated at RISE Foundation IISER, IISER Kolkata" [level=4] [ref=f23e54]
+            - paragraph [ref=f23e55]: Began our journey at the innovation hub of IISER, Kolkata.
+        - generic [ref=f23e56]:
+          - generic [ref=f23e58]:
+            - text: "6"
+            - superscript [ref=f23e59]: th
+            - text: January, 2024
+          - generic [ref=f23e60]:
+            - heading "Awarded DST-NIDHI PRAYAS startup grants 10 lacs" [level=4] [ref=f23e61]
+            - paragraph [ref=f23e62]: Received a 10 lac grant from Savli Technology & Business Incubator (STBI), Gujarat.
+        - generic [ref=f23e63]:
+          - generic [ref=f23e65]:
+            - text: "30"
+            - superscript [ref=f23e66]: th
+            - text: March, 2024
+          - generic [ref=f23e67]:
+            - heading "Awarded HDFC Bank CSR Parivartan startup grant of amount 10 lacs" [level=4] [ref=f23e68]
+            - paragraph [ref=f23e69]: Secured the Parivartan startup grant of 10 lacs from HDFC Bank.
+        - generic [ref=f23e70]:
+          - generic [ref=f23e72]:
+            - text: "22"
+            - superscript [ref=f23e73]: nd
+            - text: January, 2025
+          - generic [ref=f23e74]:
+            - heading "Selected top 10 startup in 'The BlueEconomy Mission 50 Accelerated Programme'" [level=4] [ref=f23e75]
+            - paragraph [ref=f23e76]: Recognized as a top 10 startup in the accelerated programme conducted by Bhubaneswar City Knowledge Innovation Cluster (BCKIC) Foundation and KIIT-TBI (Technology Business Incubator).
+    - generic [ref=f23e78]:
+      - heading "Our Core Innovations" [level=2] [ref=f23e79]
+      - paragraph [ref=f23e80]:
+        - text: ChemActiva valorizes the indigenous, non-edible shola plant (
+        - emphasis [ref=f23e81]: Aeschynomene aspera
+        - text: L.) — abundantly grown in the marshy waterlands of Bengal — into high-value, sustainable biomaterials that replace hazardous and non-biodegradable alternatives.
+      - generic [ref=f23e82]:
+        - article [ref=f23e83]:
+          - heading "Sustainable Chemicals" [level=3] [ref=f23e85]
+          - paragraph [ref=f23e86]: Low-bulk-density nanocellulose from renewable shola biomass.
+        - article [ref=f23e87]:
+          - heading "Lab Solutions" [level=3] [ref=f23e89]
+          - paragraph [ref=f23e90]: Cellulose-based microscope immersion oil cleaning kits for optical-grade lens care.
+        - article [ref=f23e91]:
+          - heading "Oil Spill Response" [level=3] [ref=f23e93]
+          - paragraph [ref=f23e94]: Reusable, high-absorption kits for marine, industrial and coastal cleanup.
+    - generic [ref=f23e96]:
+      - heading "Our Products" [level=2] [ref=f23e97]
+      - generic [ref=f23e98]:
+        - article [ref=f23e99]:
+          - img "Low-Bulk-Density Nanocellulose" [ref=f23e101]
+          - generic [ref=f23e102]:
+            - generic [ref=f23e103]: Nanocellulose
+            - heading "Low-Bulk-Density Nanocellulose" [level=3] [ref=f23e104]
+            - paragraph [ref=f23e105]: Next-generation plant-based nanocellulose.
+        - article [ref=f23e106]:
+          - img "Microscope Immersion Oil Cleaning Kit" [ref=f23e108]
+          - generic [ref=f23e109]:
+            - generic [ref=f23e110]: Lab Essentials
+            - heading "Microscope Immersion Oil Cleaning Kit" [level=3] [ref=f23e111]
+            - paragraph [ref=f23e112]: Optical-grade cellulose lens care.
+        - article [ref=f23e113]:
+          - img "Marine & Industrial Oil Spill Kit" [ref=f23e115]
+          - generic [ref=f23e116]:
+            - generic [ref=f23e117]: Oil Spill Solution
+            - heading "Marine & Industrial Oil Spill Kit" [level=3] [ref=f23e118]
+            - paragraph [ref=f23e119]: High-absorption, reusable spill cleanup.
+      - link "View All Products" [ref=f23e121] [cursor=pointer]:
+        - /url: /products
+    - generic [ref=f23e123]:
+      - heading "Meet the Team" [level=2] [ref=f23e124]
+      - paragraph [ref=f23e126]: Loading...
+    - generic [ref=f23e128]:
+      - heading "Our Advisors" [level=2] [ref=f23e129]
+      - paragraph [ref=f23e131]: Loading...
+    - generic [ref=f23e133]:
+      - heading "Get in Touch" [level=2] [ref=f23e134]
+      - generic [ref=f23e135]:
+        - generic [ref=f23e136]:
+          - heading "ChemActiva Innovations Pvt Ltd" [level=3] [ref=f23e137]
+          - paragraph [ref=f23e138]: RISE Foundation IISER, Mohanpur, Nadia – 741246, West Bengal
+          - paragraph [ref=f23e139]:
+            - strong [ref=f23e140]: "Email:"
+            - link "chemactiva.innovations@gmail.com" [ref=f23e141] [cursor=pointer]:
+              - /url: mailto:chemactiva.innovations@gmail.com
+          - paragraph [ref=f23e142]:
+            - strong [ref=f23e143]: "Phone:"
+            - link "+91 983 011 7780" [ref=f23e144] [cursor=pointer]:
+              - /url: tel:+919830117780
+        - generic [ref=f23e145]:
+          - textbox "Your Name" [ref=f23e147]
+          - textbox "Your Email" [ref=f23e149]
+          - textbox "Subject" [ref=f23e151]
+          - textbox "Your Message" [ref=f23e153]
+          - button "Send Message" [ref=f23e154] [cursor=pointer]
+          - status [ref=f23e155]
+    - paragraph [ref=f23e158]:
+      - text: © 2026 ChemActiva Innovations.
+      - link "Blog" [ref=f23e159] [cursor=pointer]:
+        - /url: /blog
