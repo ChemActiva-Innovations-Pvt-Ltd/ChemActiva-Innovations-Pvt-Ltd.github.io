@@ -10,3 +10,4 @@ yarn-error.log*
 # Local harness scaffolding (agent working files, quarantined-not-deleted items)
 plans/
 .rigor-trash/
+.playwright-mcp/
