@@ -117,13 +117,20 @@ describe('image pipeline', () => {
     }
   });
 
-  test('hero slides are uniform 16:7 (1280x560)', async () => {
+  test('hero slides keep natural aspect ratios (no crop) + milestones present', async () => {
     const hits = rastersUnder(path.join(PUBLIC, 'assets', 'images', 'slides'));
     expect(hits.length).toBe(10);
+    const ratios = new Set();
     for (const h of hits) {
       const meta = await sharp(h).metadata();
-      expect(meta.width).toBe(1280);
-      expect(meta.height).toBe(560);
+      expect(meta.width).toBeLessThanOrEqual(1280);
+      ratios.add(Math.round((meta.width / meta.height) * 100) / 100);
+    }
+    // Natural ratios means we should see VARIETY (not one uniform crop)
+    expect(ratios.size).toBeGreaterThan(4);
+    // Milestone slides exist
+    for (const f of ['slide-panel-hdfc.webp', 'slide-panel-dst.webp', 'slide-panel-blue-economy.webp']) {
+      expect(fs.existsSync(path.join(PUBLIC, 'assets', 'images', 'slides', f))).toBe(true);
     }
   });
 

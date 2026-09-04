@@ -272,29 +272,31 @@ const siteUrl = "https://chemactiva.com";
             }
             type();
 
-            // Hero Images & Slideshow — categorized, uniform 16:7 slide crops (1280x560)
+            // Hero Images & Slideshow — MILESTONES FIRST, then products.
+            // Each image keeps its natural aspect ratio (no cropping).
             const heroImages = [
+                { img: '/assets/images/slides/slide-panel-hdfc.webp', text: 'HDFC Parivartan Grant', cat: 'Milestone' },
+                { img: '/assets/images/slides/slide-panel-dst.webp', text: 'DST NIDHI PRAYAS Award', cat: 'Milestone' },
+                { img: '/assets/images/slides/slide-panel-blue-economy.webp', text: 'Blue Economy Award', cat: 'Milestone' },
                 { img: '/assets/images/slides/slide-panel-cnc.webp', text: 'Crystalline Nano Cellulose', cat: 'Product' },
                 { img: '/assets/images/slides/slide-nanocellulose.webp', text: 'Low-Bulk-Density Nanocellulose', cat: 'Product' },
                 { img: '/assets/images/slides/slide-microscope-kit.webp', text: 'Microscope Immersion Oil Cleaning Kit', cat: 'Product' },
                 { img: '/assets/images/slides/slide-panel-oil-spill.webp', text: 'Advanced Oil Spill Kits', cat: 'Product' },
                 { img: '/assets/images/slides/slide-marine-kit.webp', text: 'Marine & Industrial Oil Spill Kit', cat: 'Product' },
                 { img: '/assets/images/slides/slide-domestic-kit.webp', text: 'Domestic Oil Spill Kit', cat: 'Product' },
-                { img: '/assets/images/slides/slide-greenulose-packaging.webp', text: 'Greenulose™ Packaging', cat: 'Product' },
-                { img: '/assets/images/slides/slide-panel-hdfc.webp', text: 'HDFC Parivartan Grant', cat: 'Milestone' },
-                { img: '/assets/images/slides/slide-panel-dst.webp', text: 'DST NIDHI PRAYAS Award', cat: 'Milestone' },
-                { img: '/assets/images/slides/slide-panel-blue-economy.webp', text: 'Blue Economy Award', cat: 'Milestone' }
+                { img: '/assets/images/slides/slide-greenulose-packaging.webp', text: 'Greenulose™ Packaging', cat: 'Product' }
             ];
             const heroStack = document.getElementById('hero-stack');
             let heroIdx = 0;
 
-            // Build one card per slide with category badge + Ken Burns zoom
+            // Build one card per slide with category badge; card takes image's natural ratio
             heroImages.forEach((data, i) => {
                 const div = document.createElement('div');
                 div.className = 'hero-stack-image';
                 div.dataset.cat = data.cat;
                 div.innerHTML = `
-                    <img src="${data.img}" alt="${data.text}" width="1280" height="560" ${i < 2 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+                    <img src="${data.img}" alt="${data.text}" ${i < 2 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}
+                         onload="const c=this.closest('.hero-stack-image'); c.style.setProperty('--card-ratio', this.naturalWidth + ' / ' + this.naturalHeight); c.dataset.portrait = (this.naturalWidth < this.naturalHeight) ? 'true' : 'false';">
                     <span class="hero-slide-badge">${data.cat === 'Product' ? '🔬 Product' : '🏆 Milestone'}</span>
                     <span class="hero-slide-caption">${data.text}</span>`;
                 heroStack.appendChild(div);
@@ -449,8 +451,15 @@ const siteUrl = "https://chemactiva.com";
             ];
             document.getElementById('products-container').innerHTML = products.map(p => `
                 <article class="product-card-modern" role="link" tabindex="0" aria-label="View ${p.name} details" onclick="window.location.href='/products'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/products'}">
-                    <div class="product-image-wrapper"><img src="${p.img}" alt="${p.name}" width="1200" height="900" class="${p.portrait ? 'portrait-showcase' : ''}" loading="lazy" decoding="async"></div>
-                    <div class="product-info"><span class="product-category-tag">${p.cat}</span><h3>${p.name}</h3><p>${p.desc}</p></div>
+                    <div class="product-image-wrapper">
+                        <span class="product-category-tag">${p.cat}</span>
+                        <img src="${p.img}" alt="${p.name}" class="${p.portrait ? 'portrait-showcase' : ''}" loading="lazy" decoding="async">
+                    </div>
+                    <div class="product-info">
+                        <h3>${p.name}</h3>
+                        <p>${p.desc}</p>
+                        <span class="product-cta">View details <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                    </div>
                 </article>
             `).join('');
 

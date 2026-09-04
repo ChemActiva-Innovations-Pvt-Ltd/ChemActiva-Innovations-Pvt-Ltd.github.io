@@ -420,12 +420,13 @@ body.light-mode .leaf {
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: 380px;
 }
 
 .hero-stack-image {
     position: absolute;
     width: 80%;
-    max-width: 360px;
+    max-width: 440px;
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -728,36 +729,126 @@ body.light-mode .leaf {
 /* ========================================
    PRODUCTS - MOBILE SHOPPING STYLE
    ======================================== */
+/* Homepage product showcase cards v2 */
 .products-showcase-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.75rem;
+    margin-top: 2rem;
 }
 
 .product-card-modern {
     overflow: hidden;
-    border-radius: 1rem;
-    background: var(--glass-bg);
+    border-radius: 1.25rem;
+    background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 45%, rgba(50, 223, 110, 0.06)),
+        var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
     border: 1px solid var(--glass-border);
-    transition: all 0.3s;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s, border-color 0.4s;
+    position: relative;
+    cursor: pointer;
+}
+
+/* top light-catch */
+.product-card-modern::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    z-index: 2;
 }
 
 .product-card-modern:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px rgba(50, 223, 110, 0.2);
+    transform: translateY(-8px);
+    border-color: rgba(50, 223, 110, 0.45);
+    box-shadow:
+        0 22px 48px rgba(0, 0, 0, 0.28),
+        0 0 34px rgba(50, 223, 110, 0.14);
 }
 
 .product-image-wrapper {
-    height: 180px;
+    aspect-ratio: 16 / 10;
+    height: auto;
     overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, rgba(16, 28, 14, 0.5), rgba(10, 20, 10, 0.6));
 }
 
 .product-image-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s;
+    object-fit: contain;
+    padding: 0.75rem;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.product-card-modern:hover .product-image-wrapper img {
+    transform: scale(1.05);
+}
+
+/* category chip floating on image */
+.product-card-modern .product-category-tag {
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    z-index: 3;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.product-info {
+    padding: 1.4rem 1.5rem 1.6rem;
+}
+
+.product-info h3 {
+    font-size: 1.12rem;
+    margin-bottom: 0.45rem;
+    line-height: 1.3;
+}
+
+.product-info p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+}
+
+/* 'View details' affordance */
+.product-info .product-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    transition: gap 0.3s;
+}
+
+.product-card-modern:hover .product-cta {
+    gap: 0.65rem;
+}
+
+body.light-mode .product-card-modern {
+    background:
+        linear-gradient(160deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5) 45%, rgba(210, 240, 215, 0.4)),
+        rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+body.light-mode .product-card-modern:hover {
+    border-color: rgba(26, 154, 78, 0.4);
+    box-shadow:
+        0 22px 48px rgba(26, 46, 18, 0.15),
+        0 0 34px rgba(120, 200, 140, 0.2);
+}
+
+body.light-mode .product-image-wrapper {
+    background: linear-gradient(135deg, rgba(235, 245, 235, 0.9), rgba(220, 238, 225, 0.95));
 }
 
 .product-card-modern:hover .product-image-wrapper img {
@@ -1293,29 +1384,28 @@ body.light-mode .form-group textarea {
         height: 80px;
     }
 
-    /* Mobile Products - Shopping Style */
+    /* Mobile Products: vertical cards (v2 design) */
     .product-card-modern {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        align-items: center;
+        display: block;
     }
 
     .product-image-wrapper {
-        height: 120px;
-        border-radius: 0.75rem 0 0 0.75rem;
+        aspect-ratio: 16 / 10;
+        height: auto;
+        border-radius: 1.25rem 1.25rem 0 0;
     }
 
     .product-info {
-        padding: 1rem;
+        padding: 1.1rem 1.25rem 1.3rem;
     }
 
     .product-info h3 {
-        font-size: 1rem;
-        margin-bottom: 0.25rem;
+        font-size: 1.05rem;
+        margin-bottom: 0.35rem;
     }
 
     .product-info p {
-        font-size: 0.8rem;
+        font-size: 0.84rem;
     }
 
     .slideshow-nav {
@@ -1527,9 +1617,28 @@ body.light-mode .leaf-svg {
     height: 72px;
 }
 
-/* Hero stack: panels are wide banners (1600x630 etc) — 16:7-ish frame */
+/* Hero stack cards: natural aspect ratio via --card-ratio (set by JS).
+   Portrait cards: height-capped, width follows ratio.
+   Landscape cards: width-capped, height follows ratio. */
 .hero-stack-image {
-    aspect-ratio: 16 / 7;
+    aspect-ratio: var(--card-ratio, 16 / 10);
+    max-height: 56vh;
+    max-width: 440px;
+    width: 80%;
+}
+
+/* Portrait (ratio < 1): drive by height instead of width */
+.hero-stack-image[data-portrait="true"] {
+    width: auto;
+    height: 56vh;
+    max-width: 80%;
+}
+
+.hero-stack-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: linear-gradient(135deg, rgba(16, 28, 14, 0.92), rgba(10, 20, 10, 0.96));
 }
 
 .hero-stack-image img {
@@ -1703,14 +1812,6 @@ body.light-mode .product-badge .icon-svg {
     .icon-svg { animation: none; }
 }
 
-/* Homepage product showcase: portrait sources (microscope kit) get
-   contain-in-frame treatment so the full product is visible */
-.product-image-wrapper img.portrait-showcase {
-    object-fit: contain;
-    padding: 0.5rem;
-    background: var(--bg-card);
-}
-
 /* ========================================
    UI POLISH v3 — a11y + interactions
    ======================================== */
@@ -1815,6 +1916,11 @@ body.light-mode .scroll-top-btn {
     max-width: 320px;
 }
 
+.footer-brand,
+.footer-col {
+    text-align: left;
+}
+
 .footer-col h4 {
     font-size: 0.95rem;
     margin-bottom: 0.9rem;
@@ -1838,18 +1944,51 @@ body.light-mode .scroll-top-btn {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding-top: 1.25rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.4rem;
     font-size: 0.82rem;
     color: var(--text-secondary);
+    text-align: center;
+}
+
+body.light-mode .footer-bottom {
+    border-top-color: rgba(26, 154, 78, 0.15);
 }
 
 @media (max-width: 768px) {
     .footer-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.75rem;
+        text-align: center;
+    }
+
+    .footer-brand,
+    .footer-col {
+        text-align: center;
+    }
+
+    .footer-brand p {
+        max-width: 36ch;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-col a {
+        display: inline-block; /* links center as inline row */
+        padding: 0.3rem 0.75rem;
+    }
+
+    .footer-col h4::after {
+        content: "";
+        display: block;
+        width: 32px;
+        height: 2px;
+        margin: 0.5rem auto 0;
+        border-radius: 2px;
+        background: var(--accent-primary);
+        opacity: 0.6;
     }
 }
 
@@ -1958,7 +2097,8 @@ body.light-mode .blog-meta .meta-item svg {
         min-height: 48px; /* touch target */
     }
 
-    /* Mobile slideshow: full-width crossfade carousel */
+    /* Mobile slideshow: 3D card-stack shuffle — cards rise from behind to top.
+       Each card keeps its NATURAL aspect ratio (contain, no crop). */
     .hero-visual-modern {
         width: 100%;
         height: auto;
@@ -1970,47 +2110,85 @@ body.light-mode .blog-meta .meta-item svg {
     .hero-image-stack {
         position: relative;
         width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 10;
-        border-radius: 1.25rem;
-        overflow: hidden;
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-        touch-action: pan-y; /* allow vertical scroll, capture horizontal swipes */
+        height: 340px; /* stage height; cards size by their own ratio */
+        perspective: 1200px;
+        touch-action: pan-y;
     }
 
-    /* ALL slides: crossfade stack (no deck-of-cards) */
+    /* Cards: natural-ratio (set inline via --card-ratio), 3D depth */
     .hero-stack-image,
     .hero-stack-image.behind-1,
     .hero-stack-image.behind-2,
     .hero-stack-image.behind-3,
     .hero-stack-image.hidden {
         position: absolute;
-        inset: 0;
-        width: 100% !important;
-        height: 100% !important;
+        left: 50%;
+        top: 50%;
+        width: min(88%, 420px) !important;
         max-width: none !important;
-        aspect-ratio: auto !important; /* kill the desktop 16/7 frame */
-        left: 0 !important;
-        top: 0 !important;
-        transform: none !important;
+        aspect-ratio: var(--card-ratio, 16 / 10) !important; /* per-image, set by JS */
+        border-radius: 1.1rem !important;
+        overflow: hidden;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18);
         opacity: 0;
         z-index: 1;
-        transition: opacity 0.7s ease;
-        border-radius: 0;
-        box-shadow: none;
+        transition:
+            transform 0.85s cubic-bezier(0.34, 1.3, 0.5, 1),
+            opacity 0.6s ease,
+            filter 0.6s ease;
+        pointer-events: none;
+        will-change: transform, opacity;
     }
 
-    .hero-stack-image.active {
-        z-index: 5;
-        opacity: 1;
-        transform: none !important;
-        animation: ken-burns 5s ease-out forwards;
-    }
-
+    /* Card image fills the ratio-matched card exactly */
     .hero-stack-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        background: linear-gradient(135deg, rgba(16, 28, 14, 0.92), rgba(10, 20, 10, 0.96));
+    }
+
+    /* Active card front & center */
+    .hero-stack-image.active {
+        z-index: 5;
+        opacity: 1;
+        transform: translate(-50%, -58%) scale(1) rotate(0deg) !important;
+        filter: none;
+        animation: card-pop 0.85s cubic-bezier(0.34, 1.3, 0.5, 1);
+    }
+
+    /* Depth queue: cards waiting behind */
+    .hero-stack-image.behind-1 {
+        z-index: 4;
+        opacity: 0.85;
+        transform: translate(-50%, -46%) scale(0.88) rotate(4deg) translateZ(-90px) !important;
+        filter: brightness(0.75) saturate(0.85);
+    }
+
+    .hero-stack-image.behind-2 {
+        z-index: 3;
+        opacity: 0.6;
+        transform: translate(-50%, -36%) scale(0.76) rotate(-5deg) translateZ(-190px) !important;
+        filter: brightness(0.6) saturate(0.7);
+    }
+
+    .hero-stack-image.behind-3 {
+        z-index: 2;
+        opacity: 0.38;
+        transform: translate(-50%, -28%) scale(0.65) rotate(7deg) translateZ(-300px) !important;
+        filter: brightness(0.5) saturate(0.6);
+    }
+
+    .hero-stack-image.hidden {
+        z-index: 1;
+        opacity: 0;
+        transform: translate(-50%, -20%) scale(0.55) rotate(-9deg) translateZ(-420px) !important;
+    }
+
+    @keyframes card-pop {
+        0% { transform: translate(-50%, -46%) scale(0.88) rotate(4deg); filter: brightness(0.75); }
+        100% { transform: translate(-50%, -58%) scale(1) rotate(0deg); filter: none; }
     }
 
     .hero-slide-badge {
@@ -2249,7 +2427,7 @@ body.light-mode .glass-card::before {
 }
 
 body.light-mode .glass-card::after {
-    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    content: none; /* no caustic streak in light mode — reads as photo glare */
 }
 
 body.light-mode .glass-card:hover {
