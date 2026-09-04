@@ -61,7 +61,8 @@ jobs:
             const html = fs.readFileSync(page, 'utf8');
             let m;
             while ((m = re.exec(html))) {
-              const url = m[1].split('?')[0];
+              let url = m[1].split('#')[0].split('?')[0]; // strip fragment + query
+              if (!url || url === '/') continue; // homepage always exists
               if (checked.has(url)) continue;
               checked.add(url);
               let t = url.endsWith('/') ? url + 'index.html' : url;
