@@ -7,22 +7,22 @@
 
 // Mock localStorage for jsdom environment
 const localStorageMock = {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    removeItem: jest.fn(),
-    clear: jest.fn(),
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
 };
 global.localStorage = localStorageMock;
 
 // Mock fetch for API calls
 global.fetch = jest.fn(() =>
-    Promise.resolve({
-        text: () => Promise.resolve(''),
-        json: () => Promise.resolve({}),
-    })
+  Promise.resolve({
+    text: () => Promise.resolve(''),
+    json: () => Promise.resolve({}),
+  })
 );
 
 // Clean up after each test
 afterEach(() => {
-    jest.clearAllMocks();
+  jest.clearAllMocks();
 });
