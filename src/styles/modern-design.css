@@ -1736,3 +1736,201 @@ body.light-mode .product-badge .icon-svg {
     padding: 0.5rem;
     background: var(--bg-card);
 }
+
+/* ========================================
+   UI POLISH v3 — a11y + interactions
+   ======================================== */
+
+/* Keyboard focus: visible ring on all interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--accent-secondary);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Form fields: floating-label-like aria labels are set in markup;
+   ensure focus ring is visible on inputs */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 1px;
+    border-color: var(--accent-primary);
+}
+
+/* Nav active state (set via aria-current by JS) */
+.nav-links-modern a[aria-current="page"] {
+    color: var(--accent-secondary);
+    position: relative;
+}
+
+.nav-links-modern a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: var(--accent-secondary);
+    border-radius: 2px;
+}
+
+/* Scroll-to-top button */
+.scroll-top-btn {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 90;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(50, 223, 110, 0.4);
+    background: rgba(10, 18, 8, 0.85);
+    color: var(--accent-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.scroll-top-btn:hover {
+    box-shadow: 0 4px 20px rgba(50, 223, 110, 0.4);
+}
+
+.scroll-top-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+body.light-mode .scroll-top-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1b5e20;
+    border-color: rgba(27, 94, 32, 0.3);
+}
+
+/* Rich footer */
+.footer-modern {
+    padding: 3rem 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-brand p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 320px;
+}
+
+.footer-col h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
+    color: var(--text-primary);
+}
+
+.footer-col a {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.footer-col a:hover {
+    color: var(--accent-primary);
+    transform: translateX(3px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile menu: scroll lock + overlay behavior */
+body.nav-open {
+    overflow: hidden;
+}
+
+/* Blog meta icons (SVG-based, replacing emoji) */
+.blog-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.blog-meta .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.blog-meta .meta-item svg {
+    width: 14px;
+    height: 14px;
+    color: var(--accent-secondary);
+    flex-shrink: 0;
+}
+
+body.light-mode .blog-meta .meta-item svg {
+    color: #1b5e20;
+}
+
+/* Back button on detail pages */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-secondary);
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
+
+.back-link:hover {
+    transform: translateX(-3px);
+}
+
+.back-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-top-btn, .footer-col a, .back-link { transition: none; }
+}
