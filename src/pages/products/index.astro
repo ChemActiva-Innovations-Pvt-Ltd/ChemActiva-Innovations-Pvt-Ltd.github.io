@@ -258,7 +258,7 @@ const description = "Explore sustainable nanocellulose products including Greenu
                 };
                 const m = mainImgs[p.id] || { src: p.images[0], ratio: '4 / 3' };
                 return `
-                <article class="glass-card product-detail-grid">
+                <article class="glass-card product-detail-grid reveal" style="--reveal-delay: ${idx * 0.12}s">
                     <div class="product-gallery" style="order: ${rev ? 2 : 1};">
                         <img class="product-main-image${m.portrait ? ' portrait' : ''}" id="main-${p.id}" src="${m.src}" alt="${p.name}" style="aspect-ratio: ${m.ratio};" ${idx === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
                         <div class="product-thumbnails">
@@ -276,6 +276,21 @@ const description = "Explore sustainable nanocellulose products including Greenu
                 </article>
                 `;
             }).join('');
+
+            // Reveal product cards on scroll
+            (function initReveal() {
+                const els = document.querySelectorAll('.reveal');
+                if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    els.forEach(el => el.classList.add('revealed'));
+                    return;
+                }
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(en => {
+                        if (en.isIntersecting) { en.target.classList.add('revealed'); io.unobserve(en.target); }
+                    });
+                }, { threshold: 0.1 });
+                els.forEach(el => io.observe(el));
+            })();
         });
     </script>
     <script is:inline>

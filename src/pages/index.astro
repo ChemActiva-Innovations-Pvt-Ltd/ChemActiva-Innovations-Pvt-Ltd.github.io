@@ -417,6 +417,24 @@ const siteUrl = "https://chemactiva.com";
                         <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-date">${item.date}</div>
                         <div class="glass-card" style="padding: 1rem;"><h4 style="margin-bottom:0.25rem;">${item.event}</h4><p style="margin:0;font-size:0.85rem;">${item.details}</p></div></div>
                     `).join('');
+                    // Staggered timeline reveal
+                    const tItems = document.querySelectorAll('.timeline-item');
+                    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        const tio = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const el = entry.target;
+                                    const idx = [...tItems].indexOf(el);
+                                    el.style.transitionDelay = Math.min(idx * 0.08, 0.4) + 's';
+                                    el.classList.add('revealed');
+                                    tio.unobserve(el);
+                                }
+                            });
+                        }, { threshold: 0.2 });
+                        tItems.forEach(el => tio.observe(el));
+                    } else {
+                        tItems.forEach(el => el.classList.add('revealed'));
+                    }
 
                     const tRes = await fetch('/team.jsonl');
                     const tText = await tRes.text();
@@ -424,7 +442,7 @@ const siteUrl = "https://chemactiva.com";
                     
                     const team = all.filter(m => m.position !== "Advisor" && m.position !== "Past Member" && m.bio);
                     document.getElementById('team-container').innerHTML = team.map(m => `
-                        <article class="glass-card team-card" role="link" tabindex="0" aria-label="View profile of ${m.name}" onclick="window.location.href='/team/${m.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/team/${m.id}'}">
+                        <article class="glass-card team-card reveal reveal-scale" role="link" tabindex="0" aria-label="View profile of ${m.name}" onclick="window.location.href='/team/${m.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/team/${m.id}'}">
                             <div class="team-img-wrapper">${m.image ? `<img src="${m.image}" alt="${m.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--text-secondary);">${m.name.split(' ').map(n=>n[0]).join('')}</div>`}</div>
                             <h3>${m.name}</h3><div class="team-role">${m.position}</div>
                             <p class="team-bio">${m.bio.length > 80 ? m.bio.substring(0, 80) + '...' : m.bio}</p>
@@ -433,7 +451,7 @@ const siteUrl = "https://chemactiva.com";
 
                     const advisors = all.filter(m => m.position === "Advisor");
                     document.getElementById('advisors-container').innerHTML = advisors.map(a => `
-                        <article class="glass-card advisor-card" role="link" tabindex="0" aria-label="View profile of ${a.name}" onclick="window.location.href='/team/${a.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/team/${a.id}'}">
+                        <article class="glass-card advisor-card reveal reveal-scale" role="link" tabindex="0" aria-label="View profile of ${a.name}" onclick="window.location.href='/team/${a.id}'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/team/${a.id}'}">
                             <div class="advisor-img-wrapper">${a.image ? `<img src="${a.image}" alt="${a.name}" loading="lazy">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">${a.name.split(' ').map(n=>n[0]).join('')}</div>`}</div>
                             <h3>${a.name}</h3><div class="team-role">${a.position}</div>
                             <p class="team-bio">${a.bio.length > 100 ? a.bio.substring(0, 100) + '...' : a.bio}</p>
@@ -441,7 +459,18 @@ const siteUrl = "https://chemactiva.com";
                     `).join('');
                 } catch (e) { console.error(e); }
             }
-            loadData();
+            loadData().then(() => {
+                // reveal for dynamically rendered cards
+                const dyn = document.querySelectorAll('.team-card.reveal, .advisor-card.reveal');
+                if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    const dio = new IntersectionObserver((entries) => {
+                        entries.forEach(en => {
+                            if (en.isIntersecting) { en.target.classList.add('revealed'); dio.unobserve(en.target); }
+                        });
+                    }, { threshold: 0.1 });
+                    dyn.forEach(el => dio.observe(el));
+                } else { dyn.forEach(el => el.classList.add('revealed')); }
+            });
 
             // Products
             const products = [
