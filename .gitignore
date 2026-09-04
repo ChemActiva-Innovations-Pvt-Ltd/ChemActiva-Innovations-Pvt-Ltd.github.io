@@ -11,3 +11,5 @@ yarn-error.log*
 plans/
 .rigor-trash/
 .playwright-mcp/
+# Local audit artifacts
+*.png
