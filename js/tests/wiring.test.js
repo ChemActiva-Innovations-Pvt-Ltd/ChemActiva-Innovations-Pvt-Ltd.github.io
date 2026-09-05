@@ -214,3 +214,29 @@ describe('Service worker v2', () => {
     expect(sw).not.toContain('CACHE_NAME = \'chemactiva-v2.0.0\'');
   });
 });
+
+describe('Hero card anchoring (no static-position drift)', () => {
+  const css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'modern-design.css'), 'utf8');
+
+  test('no rule sets position:relative on .hero-stack-image', () => {
+    // Regression guard: a leftover `position: relative` once overrode the
+    // absolute anchoring, making cards render progressively lower (drift).
+    const blocks = [...css.matchAll(/\.hero-stack-image\s*\{([^}]*)\}/g)];
+    expect(blocks.length).toBeGreaterThan(0);
+    for (const b of blocks) {
+      expect(b[1]).not.toMatch(/position\s*:\s*relative/);
+    }
+  });
+
+  test('base hero card rule anchors absolute at center', () => {
+    expect(css).toContain('.hero-stack-image {\n    position: absolute;\n    top: 50%;\n    left: 50%;');
+  });
+
+  test('all desktop state transforms include centering translate', () => {
+    for (const state of ['active', 'behind-1', 'behind-2', 'behind-3']) {
+      const m = css.match(new RegExp(`\\.hero-stack-image\\.${state} \\{([^}]*)\\}`));
+      expect(m).toBeTruthy();
+      expect(m[1]).toMatch(/translate\(-50%,\s*-50%\)/);
+    }
+  });
+});

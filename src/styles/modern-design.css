@@ -423,8 +423,12 @@ body.light-mode .leaf {
     min-height: 380px;
 }
 
+/* All cards anchor at container center (prevents static-position drift
+   where later cards render progressively lower down the page) */
 .hero-stack-image {
     position: absolute;
+    top: 50%;
+    left: 50%;
     width: 80%;
     max-width: 440px;
     border-radius: 1rem;
@@ -446,32 +450,32 @@ body.light-mode .leaf {
 
 .hero-stack-image.active {
     z-index: 5;
-    transform: rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
     opacity: 1;
 }
 
 .hero-stack-image.behind-1 {
     z-index: 4;
-    transform: rotate(5deg) translateX(25px) translateY(15px);
+    transform: translate(-50%, -50%) rotate(5deg) translate(25px, 15px);
     opacity: 0.7;
 }
 
 .hero-stack-image.behind-2 {
     z-index: 3;
-    transform: rotate(-5deg) translateX(-25px) translateY(35px);
+    transform: translate(-50%, -50%) rotate(-5deg) translate(-25px, 35px);
     opacity: 0.5;
 }
 
 .hero-stack-image.behind-3 {
     z-index: 2;
-    transform: rotate(8deg) translateX(40px) translateY(50px);
+    transform: translate(-50%, -50%) rotate(8deg) translate(40px, 50px);
     opacity: 0.3;
 }
 
 .hero-stack-image.hidden {
     z-index: 1;
     opacity: 0;
-    transform: scale(0.8) translateY(60px);
+    transform: translate(-50%, -50%) scale(0.8) translateY(60px);
 }
 
 .click-hint {
@@ -1695,11 +1699,8 @@ body.light-mode .product-badge img {
 
 /* ========================================
    HERO SLIDESHOW v2 — category badges + captions + Ken Burns
+   (cards stay absolutely anchored from the base rule above)
    ======================================== */
-.hero-stack-image {
-    position: relative;
-}
-
 .hero-slide-badge {
     position: absolute;
     top: 0.75rem;
