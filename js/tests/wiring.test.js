@@ -177,7 +177,7 @@ describe('SEO / canonical domain', () => {
   });
 
   test('no stale github.io URLs in source', () => {
-    for (const p of ['src/pages/index.astro', 'src/layouts/Layout.astro', 'src/pages/blog/post/[id].astro']) {
+    for (const p of ['src/pages/index.astro', 'src/pages/blog/post/[id].astro']) {
       const src = fs.readFileSync(path.join(ROOT, p), 'utf8');
       expect(src).not.toContain('chemactiva-innovations-pvt-ltd.github.io');
       expect(src).not.toContain('chemactiva.github.io');

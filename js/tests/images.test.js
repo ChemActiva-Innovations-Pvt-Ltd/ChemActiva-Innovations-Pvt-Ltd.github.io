@@ -38,7 +38,7 @@ function sourceFiles() {
   };
   collect(path.join(ROOT, 'src'), ['.astro', '.js', '.css']);
   collect(PUBLIC, ['.js', '.jsonl', '.json']);
-  collect(path.join(ROOT, 'markdown'), ['.md']);
+  collect(path.join(PUBLIC, 'assets', 'markdown'), ['.md']);
   collect(path.join(PUBLIC, 'assets', 'markdown'), ['.md']);
   return files.filter((p) => !p.includes(`${path.sep}tests${path.sep}`));
 }

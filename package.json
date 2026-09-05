@@ -9,8 +9,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "jest --coverage",
-    "lint": "eslint js/**/*.js"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint js",
+    "validate": "npm run lint && npm test",
+    "optimize:images": "node optimize-images.mjs"
   },
   "repository": {
     "type": "git",
