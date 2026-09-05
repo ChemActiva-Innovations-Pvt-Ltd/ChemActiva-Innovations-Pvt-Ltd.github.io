@@ -35,7 +35,12 @@ const next = blogs[idx + 1] || null; // newer
 // Render markdown at BUILD time
 const mdPath = `./public${post.markdownContentFile}`;
 const mdRaw = fs.readFileSync(mdPath, 'utf-8');
-const htmlRaw = await marked.parse(mdRaw);
+// Strip the leading title + byline lines — the page header (cover, tags,
+// title, date/author meta) already renders them; keeping them would duplicate.
+const mdBody = mdRaw
+    .replace(/^#\s+.+?\n+/, '')                 // leading "# Title"
+    .replace(/^(?:\*[^\n]*\*\s*(?:\n|$))+/, ''); // leading *byline* emphasis lines
+const htmlRaw = await marked.parse(mdBody);
 
 // Headings for TOC: add stable ids to h2 headings, collect entries
 const tocEntries = [];
@@ -124,7 +129,7 @@ const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
     <main style="padding-top: 100px;">
         <section style="padding: 2rem 0;">
             <div class="container">
-                <a href="/blog" class="back-link">{BACK_SVG} Back to Blog</a>
+                <a href="/blog" class="back-link"><Fragment set:html={BACK_SVG} /> Back to Blog</a>
 
                 <img src={post.coverImage} alt={post.title} class="post-cover" width="1200" height="675" fetchpriority="high" decoding="async">
 
@@ -135,9 +140,9 @@ const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
                 <h1 class="post-title">{post.title}</h1>
 
                 <div class="post-meta">
-                    <span class="meta-item">{CAL_SVG}{dateLabel}</span>
-                    <span class="meta-item">{USER_SVG}{post.author}</span>
-                    <span class="meta-item">{CLOCK_SVG}{readMin} min read</span>
+                    <span class="meta-item"><Fragment set:html={CAL_SVG} />{dateLabel}</span>
+                    <span class="meta-item"><Fragment set:html={USER_SVG} />{post.author}</span>
+                    <span class="meta-item"><Fragment set:html={CLOCK_SVG} />{readMin} min read</span>
                 </div>
 
                 <div class="post-layout">

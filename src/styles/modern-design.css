@@ -3163,3 +3163,51 @@ body.light-mode .blog-filter-chip.active {
     padding: 3rem 1rem;
     font-size: 0.95rem;
 }
+
+/* ========================================
+   CONTACT FORM — FLOATING LABELS
+   Label rests inside the field; on focus or
+   once typing begins it transitions up above
+   the field (Material-style float).
+   ======================================== */
+.form-group {
+    position: relative;
+    margin-top: 0.55rem;
+}
+
+.form-group label {
+    position: absolute;
+    left: 1rem;
+    top: 0.9rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.2;
+    pointer-events: none;
+    transform-origin: left top;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease;
+    max-width: calc(100% - 2rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group input:-webkit-autofill + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    transform: translateY(-1.85rem) scale(0.72);
+    color: var(--accent-secondary);
+}
+
+body.light-mode .form-group input:focus + label,
+body.light-mode .form-group input:not(:placeholder-shown) + label,
+body.light-mode .form-group input:-webkit-autofill + label,
+body.light-mode .form-group textarea:focus + label,
+body.light-mode .form-group textarea:not(:placeholder-shown) + label {
+    color: #1b5e20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .form-group label { transition: none; }
+}

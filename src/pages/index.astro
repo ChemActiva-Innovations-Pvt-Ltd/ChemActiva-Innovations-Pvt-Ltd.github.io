@@ -150,10 +150,10 @@ const siteUrl = "https://chemactiva.com";
                         <p><strong>Phone:</strong> <a href="tel:+919830117780">+91 983 011 7780</a></p>
                     </div>
                     <form class="contact-form glass-card" id="contact-form">
-                        <div class="form-group"><input type="text" name="name" placeholder="Your Name" aria-label="Your name" required></div>
-                        <div class="form-group"><input type="email" name="email" placeholder="Your Email" aria-label="Your email address" required></div>
-                        <div class="form-group"><input type="text" name="subject" placeholder="Subject" aria-label="Message subject" required></div>
-                        <div class="form-group"><textarea name="message" placeholder="Your Message" aria-label="Your message" required></textarea></div>
+                        <div class="form-group"><input type="text" name="name" id="cf-name" placeholder=" " required><label for="cf-name">Your Name</label></div>
+                        <div class="form-group"><input type="email" name="email" id="cf-email" placeholder=" " required><label for="cf-email">Your Email</label></div>
+                        <div class="form-group"><input type="text" name="subject" id="cf-subject" placeholder=" " required><label for="cf-subject">Subject</label></div>
+                        <div class="form-group"><textarea name="message" id="cf-message" placeholder=" " required></textarea><label for="cf-message">Your Message</label></div>
                         <button type="submit" class="btn-modern">Send Message</button>
                         <p id="contact-status" role="status" aria-live="polite" style="font-size: 0.85rem; margin-top: 0.75rem; text-align: center; min-height: 1.2em;"></p>
                     </form>
