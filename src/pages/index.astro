@@ -289,14 +289,15 @@ const siteUrl = "https://chemactiva.com";
             const heroStack = document.getElementById('hero-stack');
             let heroIdx = 0;
 
-            // Build one card per slide with category badge; card takes image's natural ratio
+            // Build one card per slide: blurred-fill backdrop + full-size image,
+            // category badge + caption. Image always renders at maximum size.
             heroImages.forEach((data, i) => {
                 const div = document.createElement('div');
                 div.className = 'hero-stack-image';
                 div.dataset.cat = data.cat;
                 div.innerHTML = `
-                    <img src="${data.img}" alt="${data.text}" ${i < 2 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}
-                         onload="const c=this.closest('.hero-stack-image'); c.style.setProperty('--card-ratio', this.naturalWidth + ' / ' + this.naturalHeight); c.dataset.portrait = (this.naturalWidth < this.naturalHeight) ? 'true' : 'false';">
+                    <div class="hero-slide-bg" style="background-image: url('${data.img}')" aria-hidden="true"></div>
+                    <img src="${data.img}" alt="${data.text}" ${i < 2 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
                     <span class="hero-slide-badge">${data.cat === 'Product' ? '🔬 Product' : '🏆 Milestone'}</span>
                     <span class="hero-slide-caption">${data.text}</span>`;
                 heroStack.appendChild(div);
