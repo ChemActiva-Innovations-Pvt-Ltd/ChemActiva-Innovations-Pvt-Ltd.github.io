@@ -247,23 +247,44 @@ const description = "Explore sustainable nanocellulose products including Greenu
             ];
 
             const grid = document.getElementById('products-grid');
+            // Per-product image metadata: [src, aspect-ratio text, isPortrait]
+            const imgMeta = {
+                lbdn: [
+                    ['/assets/images/products/crystalline_nano_cellulose_new.webp', '1200 / 1028', false],
+                    ['/assets/images/products/Crystalline_Nano_Cellulose_50gm.webp', '1200 / 900', false],
+                    ['/assets/images/products/Greenulose_25g_bottle.webp', '1200 / 900', false],
+                    ['/assets/images/products/Greenulose_100g_bottle.webp', '1200 / 900', false]
+                ],
+                miok: [
+                    ['/assets/images/products/microscope_immersion_oil_kit.webp', '394 / 652', true]
+                ],
+                mosk: [
+                    ['/assets/images/products/marine_oil_spill_kit_new.webp', '1200 / 900', false],
+                    ['/assets/images/products/domestic_oil_spill_kit_new.webp', '1200 / 900', false],
+                    ['/assets/images/products/Domestic_oil_spill_kit_1.webp', '1200 / 1031', false]
+                ]
+            };
+            // Swap handler: updates src AND box ratio AND portrait class
+            window.swapMain = (pid, src, ratio, isPortrait) => {
+                const main = document.getElementById('main-' + pid);
+                main.src = src;
+                main.style.aspectRatio = ratio;
+                main.classList.toggle('portrait', isPortrait === 'true' || isPortrait === true);
+                const thumbs = main.parentElement.querySelectorAll('.product-thumb');
+                thumbs.forEach(t => t.classList.toggle('active', t.dataset.src === src));
+            };
             grid.innerHTML = products.map((p, idx) => {
                 const rev = idx % 2 === 1;
-                // Aspect-ratio aware main image: portrait sources get .portrait
-                // (3:4 cover), landscape get 4:3 — set from image metadata
-                const mainImgs = {
-                    lbdn: { src: p.images[0], ratio: '1200 / 1028' },
-                    miok: { src: p.images[0], ratio: '394 / 652', portrait: true },
-                    mosk: { src: p.images[0], ratio: '1200 / 900' }
-                };
-                const m = mainImgs[p.id] || { src: p.images[0], ratio: '4 / 3' };
+                const meta = imgMeta[p.id] || p.images.map(i => [i, '4 / 3', false]);
+                const m0 = meta[0];
                 return `
-                <article class="glass-card product-detail-grid reveal" style="--reveal-delay: ${idx * 0.12}s">
+                <article class="glass-card product-detail-grid">
                     <div class="product-gallery" style="order: ${rev ? 2 : 1};">
-                        <img class="product-main-image${m.portrait ? ' portrait' : ''}" id="main-${p.id}" src="${m.src}" alt="${p.name}" style="aspect-ratio: ${m.ratio};" ${idx === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
+                        <img class="product-main-image${m0[2] ? ' portrait' : ''}" id="main-${p.id}" src="${m0[0]}" alt="${p.name}" style="aspect-ratio: ${m0[1]};" ${idx === 0 ? 'fetchpriority="high" decoding="sync"' : 'loading="lazy" decoding="async"'}>
                         <div class="product-thumbnails">
-                            ${p.images.map((img, i) => `<img src="${img}" alt="View ${i+1}" width="72" height="72" class="product-thumb ${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" onclick="document.getElementById('main-${p.id}').src='${img}'; this.parentElement.querySelectorAll('.product-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active');">`).join('')}
+                            ${meta.map((t, i) => `<img src="${t[0]}" alt="View ${i+1}" width="72" height="72" data-src="${t[0]}" class="product-thumb ${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" onclick="swapMain('${p.id}', '${t[0]}', '${t[1]}', ${t[2]})">`).join('')}
                         </div>
+                    </div>
                     </div>
                     <div class="product-details" style="order: ${rev ? 1 : 2};">
                         <span class="product-category-tag">${p.cat}</span>
