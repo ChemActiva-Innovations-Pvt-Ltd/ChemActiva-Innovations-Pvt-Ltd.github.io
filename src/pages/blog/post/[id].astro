@@ -1,27 +1,70 @@
 ---
 /**
- * Dynamic Blog Post Page
+ * Blog Post Page — build-time markdown rendering (no runtime fetch)
  * Authored by Shuvam Banerji Seal
  */
 import '../../../styles/modern-design.css';
 import fs from 'node:fs';
+import { marked } from 'marked';
+
+const SITE = 'https://chemactiva.com';
 
 export async function getStaticPaths() {
-    const blogPath = './public/blog.jsonl';
-    const blogData = fs.readFileSync(blogPath, 'utf-8')
+    const parse = () => fs.readFileSync('./public/blog.jsonl', 'utf-8')
         .trim()
         .split('\n')
-        .map(line => JSON.parse(line));
-    
-    return blogData.map(post => ({
+        .map((line) => JSON.parse(line))
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return parse().map((post) => ({
         params: { id: post.id },
         props: { post }
     }));
 }
 
 const { post } = Astro.props;
+const dateVal = (d) => new Date(d).getTime();
+const blogs = fs.readFileSync('./public/blog.jsonl', 'utf-8')
+    .trim()
+    .split('\n')
+    .map((line) => JSON.parse(line))
+    .sort((a, b) => dateVal(a.date) - dateVal(b.date));
+const idx = blogs.findIndex((b) => b.id === post.id);
+const prev = blogs[idx - 1] || null; // older
+const next = blogs[idx + 1] || null; // newer
+
+// Render markdown at BUILD time
+const mdPath = `./public${post.markdownContentFile}`;
+const mdRaw = fs.readFileSync(mdPath, 'utf-8');
+const htmlRaw = await marked.parse(mdRaw);
+
+// Headings for TOC: add stable ids to h2 headings, collect entries
+const tocEntries = [];
+const slugCounts = {};
+const rendered = htmlRaw.replace(/<h2>([\s\S]*?)<\/h2>/g, (match, inner) => {
+    const plain = inner.replace(/<[^>]+>/g, '');
+    let slug = plain.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    slugCounts[slug] = (slugCounts[slug] || 0) + 1;
+    if (slugCounts[slug] > 1) slug = `${slug}-${slugCounts[slug]}`;
+    tocEntries.push({ slug, text: plain });
+    return `<h2 id="${slug}">${inner}</h2>`;
+});
+
+// Related posts: share a tag, exclude self, newest first, max 2
+const related = blogs
+    .filter((b) => b.id !== post.id && b.tags?.some((t) => post.tags?.includes(t)))
+    .sort((a, b) => dateVal(b.date) - dateVal(a.date))
+    .slice(0, 2);
+
+const readMin = Math.max(2, Math.round(mdRaw.split(/\s+/).length / 200));
+const dateISO = new Date(post.date).toISOString();
+const dateLabel = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 const title = `${post.title} - ChemActiva Blog`;
-const siteUrl = "https://chemactiva.com";
+const CAL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+const USER_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+const CLOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+const BACK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>';
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>';
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 ---
 
 <!DOCTYPE html>
@@ -32,12 +75,33 @@ const siteUrl = "https://chemactiva.com";
     <title>{title}</title>
     <meta name="description" content={post.abstract}>
     <meta name="author" content={post.author}>
+    <link rel="canonical" href={`${SITE}/blog/post/${post.id}`}>
     <meta property="og:type" content="article">
     <meta property="og:title" content={post.title}>
     <meta property="og:description" content={post.abstract}>
-    <meta property="og:image" content={`${siteUrl}${post.coverImage}`}>
+    <meta property="og:image" content={`${SITE}${post.coverImage}`}>
+    <meta property="og:url" content={`${SITE}/blog/post/${post.id}`}>
+    <meta property="article:published_time" content={dateISO}>
+    <meta property="article:author" content={post.author}>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={post.title}>
+    <meta name="twitter:description" content={post.abstract}>
+    <meta name="twitter:image" content={`${SITE}${post.coverImage}`}>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json" set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.abstract,
+        image: `${SITE}${post.coverImage}`,
+        author: { '@type': 'Person', name: post.author },
+        publisher: { '@type': 'Organization', name: 'ChemActiva Innovations Pvt Ltd', logo: `${SITE}/assets/images/logo.png` },
+        datePublished: dateISO,
+        mainEntityOfPage: `${SITE}/blog/post/${post.id}`
+    })} />
 </head>
 <body>
     <div class="leaves-container" id="leaves-container"></div>
@@ -51,7 +115,7 @@ const siteUrl = "https://chemactiva.com";
                 <a href="/blog" style="color: var(--accent-secondary);">Blog</a>
                 <a href="/#team">Team</a>
                 <a href="/#contact">Contact</a>
-                <button id="theme-toggle" class="theme-toggle-btn">🌙</button>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme" set:html={MOON_SVG} />
             </div>
             <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
         </div>
@@ -60,31 +124,71 @@ const siteUrl = "https://chemactiva.com";
     <main style="padding-top: 100px;">
         <section style="padding: 2rem 0;">
             <div class="container">
-                <a href="/blog" class="back-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to Blog</a>
-                
-                <img src={post.coverImage} alt={post.title} style="width: 100%; max-height: 350px; object-fit: cover; border-radius: 1rem; margin-bottom: 1.5rem;">
-                
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                    {post.tags.map(tag => <span class="blog-tag">{tag}</span>)}
+                <a href="/blog" class="back-link">{BACK_SVG} Back to Blog</a>
+
+                <img src={post.coverImage} alt={post.title} class="post-cover" width="1200" height="675" fetchpriority="high" decoding="async">
+
+                <div class="post-tags">
+                    {post.tags.map((tag) => <span class="blog-tag">{tag}</span>)}
                 </div>
-                
-                <h1 style="margin-bottom: 0.5rem;">{post.title}</h1>
-                
-                <div style="display: flex; gap: 1rem; color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">
-                    <span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    <span class="meta-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>{post.author}</span>
+
+                <h1 class="post-title">{post.title}</h1>
+
+                <div class="post-meta">
+                    <span class="meta-item">{CAL_SVG}{dateLabel}</span>
+                    <span class="meta-item">{USER_SVG}{post.author}</span>
+                    <span class="meta-item">{CLOCK_SVG}{readMin} min read</span>
                 </div>
+
+                <div class="post-layout">
+                    {tocEntries.length > 1 && (
+                        <aside class="post-toc" aria-label="Table of contents">
+                            <h4>On this page</h4>
+                            <nav>
+                                {tocEntries.map((t) => (
+                                    <a href={`#${t.slug}`}>{t.text}</a>
+                                ))}
+                            </nav>
+                        </aside>
+                    )}
+                    <article class="blog-content glass-card" id="blog-content" set:html={rendered} />
+                </div>
+
+                <div class="post-nav">
+                    {prev ? (
+                        <a href={`/blog/post/${prev.id}`} class="post-nav-link prev">
+                            <span class="post-nav-label">← Older</span>
+                            <span class="post-nav-title">{prev.title}</span>
+                        </a>
+                    ) : <span />}
+                    {next ? (
+                        <a href={`/blog/post/${next.id}`} class="post-nav-link next">
+                            <span class="post-nav-label">Newer →</span>
+                            <span class="post-nav-title">{next.title}</span>
+                        </a>
+                    ) : <span />}
+                </div>
+
+                {related.length > 0 && (
+                    <div class="related-posts">
+                        <h3>Related articles</h3>
+                        <div class="related-grid">
+                            {related.map((r) => (
+                                <a href={`/blog/post/${r.id}`} class="related-card glass-card">
+                                    <img src={r.coverImage} alt={r.title} loading="lazy" decoding="async" width="1200" height="675">
+                                    <div class="related-body">
+                                        <span class="blog-tag">{r.tags[0]}</span>
+                                        <h4>{r.title}</h4>
+                                        <p>{r.abstract.slice(0, 110)}…</p>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
-        
-        <section style="padding-bottom: var(--section-padding);">
-            <div class="container">
-                <div class="blog-content glass-card" id="blog-content">
-                    <p>Loading...</p>
-                </div>
-            </div>
-        </section>
-        
+
         <footer class="footer-modern">
             <div class="container">
                 <div class="footer-grid">
@@ -108,15 +212,15 @@ const siteUrl = "https://chemactiva.com";
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p>&copy; <span id="current-year"></span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
+                    <p>&copy; <span id="current-year">2026</span> ChemActiva Innovations Pvt Ltd. All rights reserved.</p>
                     <p>Pioneering Sustainable Nano Cellulose</p>
                 </div>
             </div>
         </footer>
     </main>
 
-    <script is:inline define:vars={{ markdownFile: post.markdownContentFile }}>
-        document.addEventListener('DOMContentLoaded', async () => {
+    <script is:inline define:vars={{ MOON_SVG, SUN_SVG }}>
+        document.addEventListener('DOMContentLoaded', () => {
             const leavesContainer = document.getElementById('leaves-container');
             const LEAF_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21C7 16.5 4 13 4 9.5 4 6 6.5 3.5 10 3.5c1 0 2 .25 2 .25S13.5 3 15 3.5 20 6 20 9.5c0 3.5-3 7-8 11.5z" opacity="0.9"/><path d="M12 21c0-6 .5-10 3-14" opacity="0.5" stroke-width="1"/></svg>';
             for (let i = 0; i < 8; i++) {
@@ -148,11 +252,17 @@ const siteUrl = "https://chemactiva.com";
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
 
             const themeBtn = document.getElementById('theme-toggle');
-            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'; }
-            themeBtn.addEventListener('click', () => { document.body.classList.toggle('light-mode'); const isLight = document.body.classList.contains('light-mode'); themeBtn.innerHTML = isLight ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>'; themeBtn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); });
+            if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeBtn.innerHTML = SUN_SVG; }
+            themeBtn.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                const isLight = document.body.classList.contains('light-mode');
+                themeBtn.innerHTML = isLight ? SUN_SVG : MOON_SVG;
+                themeBtn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            });
 
             document.getElementById('current-year').textContent = new Date().getFullYear();
-            // Nav active state
+
             (function markActiveNav() {
                 const path = location.pathname;
                 document.querySelectorAll('#nav-menu a').forEach(a => {
@@ -163,50 +273,22 @@ const siteUrl = "https://chemactiva.com";
                 });
             })();
 
-            // Scroll-to-top
             const scrollBtn = document.getElementById('scroll-top');
             window.addEventListener('scroll', () => {
                 scrollBtn.classList.toggle('visible', window.scrollY > 600);
             }, { passive: true });
             scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-            // Load markdown
-            try {
-                const res = await fetch(markdownFile);
-                const md = await res.text();
-                document.getElementById('blog-content').innerHTML = renderMd(md);
-            } catch (e) {
-                document.getElementById('blog-content').innerHTML = '<p style="color: var(--accent-secondary);">Error loading content.</p>';
-            }
         });
-
-        function renderMd(md) {
-            return md
-                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color: var(--accent-secondary);">$1</a>')
-                .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%; border-radius: 0.75rem; margin: 1rem 0;">')
-                .replace(/```[\s\S]+?```/g, m => '<pre><code>' + m.slice(3, -3) + '</code></pre>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
-                .replace(/^- (.+)$/gm, '<li>$1</li>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>');
-        }
     </script>
     <script is:inline>
-    // Service Worker registration (PWA)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js').catch((e) => console.warn('SW registration failed:', e));
         });
     }
     </script>
-<button class="scroll-top-btn" id="scroll-top" aria-label="Scroll back to top">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-        </button>
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
 </body>
 </html>

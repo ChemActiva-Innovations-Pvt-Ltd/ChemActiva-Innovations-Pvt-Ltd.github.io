@@ -240,3 +240,46 @@ describe('Hero card anchoring (no static-position drift)', () => {
     }
   });
 });
+
+describe('Blog data integrity', () => {
+  const blogs = fs.readFileSync(path.join(ROOT, 'public', 'blog.jsonl'), 'utf8')
+    .trim().split('\n').map((l) => JSON.parse(l));
+
+  test('every blog entry has a markdown file that exists', () => {
+    expect(blogs.length).toBeGreaterThan(0);
+    for (const b of blogs) {
+      const mdPath = path.join(ROOT, 'public', b.markdownContentFile);
+      expect(fs.existsSync(mdPath)).toBe(true);
+    }
+  });
+
+  test('no orphaned markdown files in served blog dir', () => {
+    const servedDir = path.join(ROOT, 'public', 'assets', 'markdown', 'blog');
+    const onDisk = fs.readdirSync(servedDir).filter((f) => f.endsWith('.md'));
+    const referenced = new Set(blogs.map((b) => path.basename(b.markdownContentFile)));
+    const orphans = onDisk.filter((f) => !referenced.has(f));
+    expect(orphans).toEqual([]);
+  });
+
+  test('blog posts are build-time rendered (no runtime fetch of markdown)', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'src', 'pages', 'blog', 'post', '[id].astro'), 'utf8');
+    expect(src).toContain('from \'marked\'');
+    expect(src).not.toContain('fetch(markdownFile)');
+    expect(src).not.toMatch(/renderMd/);
+  });
+
+  test('blog post page has SEO essentials (canonical, JSON-LD, og)', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'src', 'pages', 'blog', 'post', '[id].astro'), 'utf8');
+    expect(src).toContain('rel="canonical"');
+    expect(src).toContain('BlogPosting');
+    expect(src).toContain('og:type" content="article"');
+    expect(src).toContain('article:published_time');
+  });
+
+  test('blog index has filter + search affordances', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'src', 'pages', 'blog', 'index.astro'), 'utf8');
+    expect(src).toContain('blog-filter-chip');
+    expect(src).toContain('blog-search');
+    expect(src).toContain('blog-empty');
+  });
+});
