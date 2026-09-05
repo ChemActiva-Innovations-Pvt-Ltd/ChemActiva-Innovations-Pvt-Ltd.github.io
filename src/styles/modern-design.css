@@ -386,6 +386,26 @@ body.light-mode .leaf {
     left: -100px;
 }
 
+/* Light mode: hero glows retuned for the pale field (the dark neon-green
+   radial is invisible on #f0f7e4) + gentle float so the hero feels as alive
+   as dark mode. */
+body.light-mode .hero-bg-glow {
+    background: radial-gradient(circle, rgba(45, 154, 78, 0.16) 0%, rgba(120, 190, 130, 0.10) 45%, transparent 70%);
+    animation: glow-float 10s ease-in-out infinite;
+}
+
+body.light-mode .glow-top-right { animation-delay: -5s; }
+
+@keyframes glow-float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(0, -28px, 0) scale(1.06); }
+}
+
+@keyframes light-field-drift {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(2%, -1.5%, 0) scale(1.04); }
+}
+
 .hero-grid-modern {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2371,10 +2391,18 @@ body::before {
 }
 
 body.light-mode::before {
+    /* 5-layer ambient field — parity with dark glow depth:
+       three greens + warm sun accent + low-left echo. Oversized (inset -15%)
+       so the slow compositor drift never reveals edges. */
+    inset: -15%;
     background:
-        radial-gradient(600px circle at 15% 20%, rgba(120, 190, 130, 0.18), transparent 55%),
-        radial-gradient(700px circle at 85% 75%, rgba(160, 215, 170, 0.16), transparent 55%),
-        radial-gradient(500px circle at 50% 110%, rgba(200, 235, 205, 0.22), transparent 60%);
+        radial-gradient(600px circle at 15% 20%, rgba(120, 190, 130, 0.20), transparent 55%),
+        radial-gradient(700px circle at 85% 75%, rgba(160, 215, 170, 0.18), transparent 55%),
+        radial-gradient(500px circle at 50% 110%, rgba(200, 235, 205, 0.25), transparent 60%),
+        radial-gradient(800px circle at 80% 8%, rgba(255, 214, 130, 0.15), transparent 60%),
+        radial-gradient(450px circle at 8% 88%, rgba(120, 190, 130, 0.16), transparent 55%);
+    animation: light-field-drift 28s ease-in-out infinite alternate;
+    will-change: transform;
 }
 
 /* Subtle noise texture for glass realism (data-URI SVG grain) */
@@ -3253,4 +3281,10 @@ body.light-mode .form-group textarea:not(:placeholder-shown) + label {
     font-weight: 600;
     color: var(--accent-secondary);
     background: rgba(50, 223, 110, 0.08);
+}
+
+/* Reduced-motion guard for light-mode ambient effects */
+@media (prefers-reduced-motion: reduce) {
+    body.light-mode::before,
+    body.light-mode .hero-bg-glow { animation: none !important; }
 }
