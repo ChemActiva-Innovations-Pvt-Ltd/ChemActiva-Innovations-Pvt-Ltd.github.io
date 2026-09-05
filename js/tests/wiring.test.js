@@ -283,3 +283,38 @@ describe('Blog data integrity', () => {
     expect(src).toContain('blog-empty');
   });
 });
+
+describe('404 + team index pages', () => {
+  test('404 page exists, branded, noindex, has escape links', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'src', 'pages', '404.astro'), 'utf8');
+    expect(src).toContain('Page Not Found');
+    expect(src).toContain('name="robots" content="noindex"');
+    ['href="/"', 'href="/products"', 'href="/blog"'].forEach(l => expect(src).toContain(l));
+    expect(src).not.toContain('script src="/js/');
+  });
+
+  test('team index statically renders all members grouped by role', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'src', 'pages', 'team', 'index.astro'), 'utf8');
+    expect(src).toContain('readFileSync(\'./public/team.jsonl\''); // build-time data (no client fetch)
+    expect(src).toContain('position === \'Advisor\'');
+    expect(src).toContain('position === \'Past Member\'');
+    expect(src).toContain('rel="canonical"');
+    expect(src).not.toContain('fetch(');
+    // every member card links to its profile page
+    expect(src).toContain('href={`/team/${m.id}`}');
+  });
+
+  test('built dist has 404.html and team/index.html', () => {
+    expect(fs.existsSync(path.join(ROOT, 'dist', '404.html'))).toBe(true);
+    expect(fs.existsSync(path.join(ROOT, 'dist', 'team', 'index.html'))).toBe(true);
+    const team = fs.readFileSync(path.join(ROOT, 'dist', 'team', 'index.html'), 'utf8');
+    expect(team).toContain('team-profile-card');
+  });
+
+  test('navs link to /team page (not just homepage anchor)', () => {
+    ['src/pages/index.astro', 'src/pages/products/index.astro', 'src/pages/blog/index.astro', 'src/pages/blog/post/[id].astro', 'src/pages/team/[id].astro'].forEach(f => {
+      const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+      expect(src).not.toContain('href="/#team"');
+    });
+  });
+});

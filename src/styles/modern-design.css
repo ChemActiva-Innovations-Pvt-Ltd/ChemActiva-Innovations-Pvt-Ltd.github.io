@@ -3211,3 +3211,46 @@ body.light-mode .form-group textarea:not(:placeholder-shown) + label {
 @media (prefers-reduced-motion: reduce) {
     .form-group label { transition: none; }
 }
+
+/* ========================================
+   TEAM INDEX (/team/) + 404
+   ======================================== */
+.team-profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    gap: 0.35rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.team-profile-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-secondary);
+}
+
+.team-profile-card h3 {
+    font-size: 1rem;
+    margin: 0.5rem 0 0;
+}
+
+.team-profile-card .member-role {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    margin: 0;
+}
+
+.initials-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-secondary);
+    background: rgba(50, 223, 110, 0.08);
+}
