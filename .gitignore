@@ -11,8 +11,8 @@ yarn-error.log*
 plans/
 .rigor-trash/
 .playwright-mcp/
-# Local audit artifacts
-*.png
+# Local audit artifacts (temp screenshots at repo root only — never site assets)
+/*.png
 
 # Playwright MCP temp screenshots (never commit)
 *.jpeg
