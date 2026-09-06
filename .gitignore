@@ -13,3 +13,7 @@ plans/
 .playwright-mcp/
 # Local audit artifacts
 *.png
+
+# Playwright MCP temp screenshots (never commit)
+*.jpeg
+!public/assets/**/*.jpeg
