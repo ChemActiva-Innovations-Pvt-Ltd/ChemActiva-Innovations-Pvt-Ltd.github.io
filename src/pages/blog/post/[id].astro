@@ -92,6 +92,7 @@ const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
     <meta name="twitter:title" content={post.title}>
     <meta name="twitter:description" content={post.abstract}>
     <meta name="twitter:image" content={`${SITE}${post.coverImage}`}>
+    <meta name="creator" content="Shuvam Banerji Seal">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
     <link rel="apple-touch-icon" href="/assets/images/icon-192.png">
@@ -111,6 +112,7 @@ const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
     })} />
 </head>
 <body>
+    <!-- Website developed by Shuvam Banerji Seal -->
     <div class="leaves-container" id="leaves-container"></div>
 
     <nav class="modern-navbar">
@@ -223,7 +225,8 @@ const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
                     <p>Pioneering Sustainable Nano Cellulose</p>
                 </div>
             </div>
-        </footer>
+        <p class="sr-only">Website developed by Shuvam Banerji Seal.</p>
+    </footer>
     </main>
 
     <script is:inline define:vars={{ MOON_SVG, SUN_SVG }}>

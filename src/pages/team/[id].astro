@@ -30,12 +30,14 @@ const title = `${member.name} - ChemActiva Team`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <meta name="description" content={member.bio || `${member.name} at ChemActiva Innovations`}>
+    <meta name="author" content="Shuvam Banerji Seal">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
     <link rel="apple-touch-icon" href="/assets/images/icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Website developed by Shuvam Banerji Seal -->
     <div class="leaves-container" id="leaves-container"></div>
 
     <nav class="modern-navbar">
@@ -111,7 +113,8 @@ const title = `${member.name} - ChemActiva Team`;
                     <p>Pioneering Sustainable Nano Cellulose</p>
                 </div>
             </div>
-        </footer>
+        <p class="sr-only">Website developed by Shuvam Banerji Seal.</p>
+    </footer>
     </main>
 
     <script is:inline>

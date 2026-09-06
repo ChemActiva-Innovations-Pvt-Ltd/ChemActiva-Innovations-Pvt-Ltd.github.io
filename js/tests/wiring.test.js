@@ -350,3 +350,31 @@ describe('Favicon + blog mobile layout', () => {
     expect(css).toMatch(/\.blog-content \{[\s\S]*?overflow-wrap: break-word;/);
   });
 });
+
+describe('Developer attribution (invisible, all pages)', () => {
+  test('every built page carries all 3 attribution layers', () => {
+    const dist = path.join(ROOT, 'dist');
+    if (!fs.existsSync(dist)) return; // CI runs tests pre-build
+    const pages = [];
+    (function walk(d) {
+      for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+        const p = path.join(d, e.name);
+        if (e.isDirectory()) walk(p);
+        else if (e.name === 'index.html' || e.name === '404.html') pages.push(p);
+      }
+    })(dist);
+    expect(pages.length).toBeGreaterThanOrEqual(25);
+    for (const p of pages) {
+      const html = fs.readFileSync(p, 'utf8');
+      expect(html).toContain('<!-- Website developed by Shuvam Banerji Seal -->'); // view-source layer
+      // machine layer: author (site pages) or creator (blog posts keep author=post writer)
+      expect(html).toMatch(/<meta name="(author|creator)" content="Shuvam Banerji Seal/);
+      expect(html).toMatch(/class="sr-only"[^>]*>Website developed by Shuvam Banerji Seal/); // a11y layer
+    }
+  });
+
+  test('sr-only utility is visually hidden (clip pattern)', () => {
+    const css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'modern-design.css'), 'utf8');
+    expect(css).toMatch(/\.sr-only \{[\s\S]*?clip: rect\(0, 0, 0, 0\)/);
+  });
+});

@@ -3301,3 +3301,20 @@ body.light-mode .form-group textarea:not(:placeholder-shown) + label {
     body.light-mode::before,
     body.light-mode .hero-bg-glow { animation: none !important; }
 }
+
+/* ========================================
+   SCREEN-READER-ONLY UTILITY
+   Visually hidden but available to assistive
+   tech + present in the DOM.
+   ======================================== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
