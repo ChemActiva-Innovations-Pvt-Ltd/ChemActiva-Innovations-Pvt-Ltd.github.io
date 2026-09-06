@@ -323,3 +323,30 @@ describe('404 + team index pages', () => {
     });
   });
 });
+
+describe('Favicon + blog mobile layout', () => {
+  test('favicon is the ChemActiva logo, not the Vite placeholder', () => {
+    const svg = fs.readFileSync(path.join(ROOT, 'public', 'favicon.svg'), 'utf8');
+    expect(svg).toContain('/assets/images/logo.png');       // real brand mark
+    expect(svg).not.toContain('M50.4 78.5');               // Vite logo path (old placeholder)
+    expect(fs.existsSync(path.join(ROOT, 'public', 'favicon-64.png'))).toBe(true);
+    // every page declares PNG fallback + apple-touch
+    const pages = ['src/pages/index.astro', 'src/pages/404.astro', 'src/pages/blog/index.astro', 'src/pages/products/index.astro', 'src/pages/team/index.astro'];
+    pages.forEach(p => {
+      const src = fs.readFileSync(path.join(ROOT, p), 'utf8');
+      expect(src).toContain('favicon-64.png');
+      expect(src).toContain('apple-touch-icon');
+    });
+  });
+
+  test('blog post mobile layout cannot overflow (block stack under 900px)', () => {
+    const css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'modern-design.css'), 'utf8');
+    // the ≤900px rule must switch to block (grid 1fr left the article in an implicit auto track)
+    const m = css.match(/@media \(max-width: 900px\) \{\s*\/\* Block stack[\s\S]*?\.post-layout \{\s*display: block;/);
+    expect(m).not.toBeNull();
+    // grid children can shrink
+    expect(css).toMatch(/\.post-layout > \* \{\s*min-width: 0;/);
+    // long tokens wrap
+    expect(css).toMatch(/\.blog-content \{[\s\S]*?overflow-wrap: break-word;/);
+  });
+});

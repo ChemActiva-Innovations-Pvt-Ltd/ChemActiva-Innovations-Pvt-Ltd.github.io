@@ -2782,6 +2782,7 @@ body.light-mode .timeline-container::before {
     margin: 0 auto;
     line-height: 1.85;
     font-size: 1.02rem;
+    overflow-wrap: break-word; /* mobile: never let a long token blow the layout */
 }
 
 .blog-content h1 {
@@ -2986,6 +2987,13 @@ body.light-mode .post-meta .meta-item svg {
     align-items: start;
 }
 
+/* Grid children must be allowed to shrink below their min-content width
+   (grid items default to min-width:auto — long unbreakable lines inside
+   the article blew the 1fr track out past the viewport on mobile) */
+.post-layout > * {
+    min-width: 0;
+}
+
 .post-toc {
     position: sticky;
     top: 100px;
@@ -3021,12 +3029,17 @@ body.light-mode .post-meta .meta-item svg {
 }
 
 @media (max-width: 900px) {
+    /* Block stack, not grid: with grid-template-columns: 1fr the article
+       (2nd child) fell into an IMPLICIT auto-sized column (560px on a 390px
+       viewport) while the TOC got the explicit track — unequal blocks and
+       horizontal overflow. Block layout stacks TOC above article at full width. */
     .post-layout {
-        grid-template-columns: 1fr;
+        display: block;
     }
 
     .post-toc {
         position: static;
+        margin-bottom: 1.5rem;
     }
 }
 
